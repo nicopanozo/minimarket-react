@@ -7,16 +7,47 @@ import LoginPage from "../features/user/LoginPage";
 import AdminDashboard from "../features/admin/AdminDashboard";
 import CartPage from "../features/cart/CartPage";
 import NotFound from "../pages/NotFound";
+import ProtectedRoute from "../features/user/ProtectedRoute";
 
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/cart" element={<CartPage />} />
-      <Route path="/checkout" element={<Checkout />} />
-      <Route path="/confirmation" element={<Confirmation />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/admin" element={<AdminDashboard />} />
+
+      <Route
+        path="/cart"
+        element={
+          <ProtectedRoute>
+            <CartPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/checkout"
+        element={
+          <ProtectedRoute>
+            <Checkout />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/confirmation"
+        element={
+          <ProtectedRoute>
+            <Confirmation />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute requireAdmin={true}>
+            <AdminDashboard />
+          </ProtectedRoute>
+        }
+      />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
