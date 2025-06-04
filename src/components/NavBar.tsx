@@ -16,28 +16,28 @@ const Navbar: React.FC = () => {
     navigate("/");
   };
   return (
-    <nav className="bg-white shadow-navbar sticky top-0 z-50">
+    <nav className="bg-white dark:bg-gray-800 shadow-navbar sticky top-0 z-50 text-gray-900 dark:text-white">
       <div className="container-custom">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link
             to="/"
-            className="text-2xl font-bold text-primary-600 hover:text-primary-700 transition-colors"
+            className="text-2xl font-bold text-primary-600 dark:text-primary-300 hover:text-primary-700 dark:hover:text-primary-200 transition-colors"
           >
             MiniMarket
           </Link>
 
           {/* Navigation Links */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6">
             <Link
               to="/"
-              className="text-secondary-700 hover:text-primary-600 font-medium transition-colors"
+              className="text-secondary-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-300 font-medium transition-colors"
             >
               Inicio
             </Link>
             <Link
               to="/cart"
-              className="text-secondary-700 hover:text-primary-600 font-medium transition-colors relative"
+              className="relative text-secondary-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-300 font-medium transition-colors"
             >
               Carrito
               {/* Badge ejemplo */}
@@ -66,11 +66,12 @@ const Navbar: React.FC = () => {
               <Link to="/login" className="btn-primary">
                 Iniciar Sesión
               </Link>
+              <DarkModeToggle />
             )}
           </div>
 
-          {/* Mobile menu button */}
-          <button className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
+          {/* Mobile menu button (más adelante podés integrar toggle ahí también) */}
+          <button className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
             <svg
               className="w-6 h-6"
               fill="none"
