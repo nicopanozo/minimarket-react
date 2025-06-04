@@ -16,12 +16,14 @@ interface AdminState {
 
 const initialState: AdminState = {
   products: [],
+
 };
 
 const adminSlice = createSlice({
   name: "admin",
   initialState,
   reducers: {
+
     addProduct(state, action: PayloadAction<Product>) {
       state.products.push(action.payload);
     },
@@ -32,4 +34,5 @@ const adminSlice = createSlice({
 });
 
 export const { addProduct, deleteProduct } = adminSlice.actions;
+
 export default adminSlice.reducer;

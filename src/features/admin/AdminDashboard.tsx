@@ -19,6 +19,7 @@ const AdminDashboard = () => {
       </section>
     </div>
   );
+
 };
 
 export default AdminDashboard;
