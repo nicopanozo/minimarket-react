@@ -1,8 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import DarkModeToggle from "../components/DarkModeToggle"; 
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState } from "../redux/store";
+import { logout } from "../features/user/userSlice";
 
 const Navbar: React.FC = () => {
+  const { user, isAuthenticated } = useSelector(
+    (state: RootState) => state.user,
+  );
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
   return (
     <nav className="bg-white dark:bg-gray-800 shadow-navbar sticky top-0 z-50 text-gray-900 dark:text-white">
       <div className="container-custom">
@@ -33,15 +45,29 @@ const Navbar: React.FC = () => {
                 0
               </span>
             </Link>
-            <Link to="/login" className="btn-secondary">
-              Login
-            </Link>
-            <Link to="/admin" className="btn-primary">
-              Admin
-            </Link>
-
-            {/* Dark mode toggle */}
-            <DarkModeToggle />
+            {isAuthenticated && user ? (
+              <div className="flex items-center space-x-4">
+                <span className="text-secondary-700 font-medium">
+                  Hola, {user.name}
+                </span>
+                {user.isAdmin && (
+                  <Link to="/admin" className="btn-primary text-sm px-3 py-1">
+                    Admin
+                  </Link>
+                )}
+                <button
+                  onClick={handleLogout}
+                  className="btn-secondary text-sm px-3 py-1"
+                >
+                  Cerrar Sesión
+                </button>
+              </div>
+            ) : (
+              <Link to="/login" className="btn-primary">
+                Iniciar Sesión
+              </Link>
+              <DarkModeToggle />
+            )}
           </div>
 
           {/* Mobile menu button (más adelante podés integrar toggle ahí también) */}
