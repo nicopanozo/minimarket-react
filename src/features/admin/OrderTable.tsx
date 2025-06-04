@@ -21,7 +21,7 @@ const OrderTable = () => {
   return (
     <div className="card overflow-x-auto mt-6">
       <table className="w-full text-sm text-left border-collapse">
-        <thead className="bg-gray-100 text-gray-700">
+        <thead className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-100">
           <tr>
             <th className="py-2 px-4">Email</th>
             <th className="py-2 px-4">Productos</th>
@@ -29,10 +29,10 @@ const OrderTable = () => {
             <th className="py-2 px-4">Fecha</th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
           {orders.length === 0 ? (
             <tr>
-              <td colSpan={4} className="text-center py-4 text-gray-400">
+              <td colSpan={4} className="text-center py-4 subtle-text">
                 No hay pedidos registrados
               </td>
             </tr>
@@ -47,10 +47,10 @@ const OrderTable = () => {
                     </div>
                   ))}
                 </td>
-                <td className="py-2 px-4 font-medium text-gray-800">
+                <td className="py-2 px-4 font-medium text-gray-800 dark:text-gray-100">
                   ${order.total.toFixed(2)}
                 </td>
-                <td className="py-2 px-4 text-gray-600">
+                <td className="py-2 px-4 text-gray-600 dark:text-gray-300">
                   {new Date(order.timestamp).toLocaleString()}
                 </td>
               </tr>

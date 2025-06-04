@@ -13,7 +13,6 @@ const ProductForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!name || !description || !image) return;
 
     dispatch(
@@ -24,7 +23,7 @@ const ProductForm = () => {
         category,
         description,
         image,
-      }),
+      })
     );
 
     setName("");

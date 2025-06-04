@@ -1,4 +1,3 @@
-// filepath: src/App.tsx
 import React from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -11,9 +10,9 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <Router>
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 ease-in-out">
           <Navbar />
-          <main className="min-h-[calc(100vh-4rem)]">
+          <main className="flex-1">
             <AppRoutes />
           </main>
         </div>
