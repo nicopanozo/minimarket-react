@@ -1,29 +1,38 @@
-// filepath: src/features/admin/adminSlice.ts
 import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  category: string;
+  description: string;
+}
 
 interface AdminState {
-  stats: any;
-  loading: boolean;
+  products: Product[];
 }
 
 const initialState: AdminState = {
-  stats: {},
-  loading: false,
+  products: [],
+
 };
 
 const adminSlice = createSlice({
   name: "admin",
   initialState,
   reducers: {
-    setStats: (state, action) => {
-      state.stats = action.payload;
+
+    addProduct(state, action: PayloadAction<Product>) {
+      state.products.push(action.payload);
     },
-    setLoading: (state, action) => {
-      state.loading = action.payload;
+    deleteProduct(state, action: PayloadAction<string>) {
+      state.products = state.products.filter(p => p.id !== action.payload);
     },
   },
 });
 
-export const { setStats, setLoading } = adminSlice.actions;
-export const adminReducer = adminSlice.reducer;
+export const { addProduct, deleteProduct } = adminSlice.actions;
+
 export default adminSlice.reducer;
