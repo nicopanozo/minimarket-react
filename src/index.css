@@ -12,28 +12,26 @@
     scroll-behavior: smooth;
   }
 
-@layer components {
-.heading-dark {
-  @apply text-gray-900 dark:text-white;
-}
+  @layer components {
+    .heading-dark {
+      @apply text-gray-900 dark:text-white;
+    }
 
-.subtle-text {
-  @apply text-gray-500 dark:text-gray-400;
-}
-}
-
+    .subtle-text {
+      @apply text-gray-500 dark:text-gray-400;
+    }
+  }
 
   body {
-  @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 ease-in-out;
-  margin: 0;
-  font-family:
-    "Inter",
-    system-ui,
-    -apple-system,
-    sans-serif;
-  line-height: 1.6;
-}
-
+    @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 ease-in-out;
+    margin: 0;
+    font-family:
+      "Inter",
+      system-ui,
+      -apple-system,
+      sans-serif;
+    line-height: 1.6;
+  }
 
   /* Modo oscuro */
   .dark body {
@@ -82,7 +80,6 @@
     @apply bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6;
     @apply transition-colors duration-300 ease-in-out;
   }
-
 
   /* Input estándar */
   .input-field {

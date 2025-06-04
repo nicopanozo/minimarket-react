@@ -28,9 +28,7 @@ const Home: React.FC = () => {
             <h3 className="text-lg font-semibold heading-dark mb-2">
               Producto {item}
             </h3>
-            <p className="subtle-text mb-4">
-              Descripción del producto aquí...
-            </p>
+            <p className="subtle-text mb-4">Descripción del producto aquí...</p>
             <button className="btn-primary w-full">Ver más</button>
           </div>
         ))}

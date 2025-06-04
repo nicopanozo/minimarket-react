@@ -7,7 +7,7 @@ import DarkModeToggle from "./DarkModeToggle";
 
 const Navbar: React.FC = () => {
   const { user, isAuthenticated } = useSelector(
-    (state: RootState) => state.user
+    (state: RootState) => state.user,
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();

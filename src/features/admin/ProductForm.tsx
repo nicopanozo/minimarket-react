@@ -23,7 +23,7 @@ const ProductForm = () => {
         category,
         description,
         image,
-      })
+      }),
     );
 
     setName("");
