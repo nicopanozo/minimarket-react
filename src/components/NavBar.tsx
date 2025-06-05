@@ -1,47 +1,81 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState } from "../redux/store";
+import { logout } from "../features/user/userSlice";
+import DarkModeToggle from "./DarkModeToggle";
 
 const Navbar: React.FC = () => {
+  const { user, isAuthenticated } = useSelector(
+    (state: RootState) => state.user,
+  );
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
+
   return (
-    <nav className="bg-white shadow-navbar sticky top-0 z-50">
+    <nav className="bg-white dark:bg-gray-800 shadow-navbar sticky top-0 z-50 text-gray-900 dark:text-white">
       <div className="container-custom">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link
             to="/"
-            className="text-2xl font-bold text-primary-600 hover:text-primary-700 transition-colors"
+            className="text-2xl font-bold text-primary-600 dark:text-primary-300 hover:text-primary-700 dark:hover:text-primary-200 transition-colors"
           >
             MiniMarket
           </Link>
 
           {/* Navigation Links */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6">
             <Link
               to="/"
-              className="text-secondary-700 hover:text-primary-600 font-medium transition-colors"
+              className="text-secondary-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-300 font-medium transition-colors"
             >
               Inicio
             </Link>
             <Link
               to="/cart"
-              className="text-secondary-700 hover:text-primary-600 font-medium transition-colors relative"
+              className="relative text-secondary-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-300 font-medium transition-colors"
             >
               Carrito
-              {/* Badge ejemplo */}
               <span className="absolute -top-2 -right-2 bg-danger-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                 0
               </span>
             </Link>
-            <Link to="/login" className="btn-secondary">
-              Login
-            </Link>
-            <Link to="/admin" className="btn-primary">
-              Admin
-            </Link>
+
+            {isAuthenticated && user ? (
+              <div className="flex items-center space-x-4">
+                <span className="text-secondary-700 dark:text-gray-200 font-medium">
+                  Hola, {user.name}
+                </span>
+                {user.isAdmin && (
+                  <Link to="/admin" className="btn-primary text-sm px-3 py-1">
+                    Admin
+                  </Link>
+                )}
+                <button
+                  onClick={handleLogout}
+                  className="btn-secondary text-sm px-3 py-1"
+                >
+                  Cerrar Sesión
+                </button>
+              </div>
+            ) : (
+              <Link to="/login" className="btn-primary">
+                Iniciar Sesión
+              </Link>
+            )}
+
+            {/* Toggle siempre visible */}
+            <DarkModeToggle />
           </div>
 
-          {/* Mobile menu button */}
-          <button className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
+          {/* Mobile menu button (puede incluir toggle luego) */}
+          <button className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
             <svg
               className="w-6 h-6"
               fill="none"

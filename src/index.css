@@ -12,16 +12,31 @@
     scroll-behavior: smooth;
   }
 
+  @layer components {
+    .heading-dark {
+      @apply text-gray-900 dark:text-white;
+    }
+
+    .subtle-text {
+      @apply text-gray-500 dark:text-gray-400;
+    }
+  }
+
   body {
+    @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 ease-in-out;
     margin: 0;
     font-family:
       "Inter",
       system-ui,
       -apple-system,
       sans-serif;
-    background-color: #fafafa;
-    color: #1f2937;
     line-height: 1.6;
+  }
+
+  /* Modo oscuro */
+  .dark body {
+    background-color: #0f172a;
+    color: #f8fafc;
   }
 
   /* Mejores estilos para enlaces */
@@ -52,7 +67,7 @@
 
   /* Botón secundario */
   .btn-secondary {
-    @apply bg-gray-100 hover:bg-gray-200 text-gray-900 font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
+    @apply bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
   }
 
   /* Botón de peligro */
@@ -62,12 +77,13 @@
 
   /* Card básica */
   .card {
-    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
+    @apply bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6;
+    @apply transition-colors duration-300 ease-in-out;
   }
 
   /* Input estándar */
   .input-field {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200;
+    @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200;
   }
 
   /* Container responsivo */

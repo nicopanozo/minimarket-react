@@ -4,6 +4,7 @@ import { addProduct } from "./adminSlice";
 
 const ProductForm = () => {
   const dispatch = useDispatch();
+
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("Tech");
@@ -12,6 +13,8 @@ const ProductForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!name || !description || !image) return;
+
     dispatch(
       addProduct({
         id: crypto.randomUUID(),
@@ -20,8 +23,9 @@ const ProductForm = () => {
         category,
         description,
         image,
-      })
+      }),
     );
+
     setName("");
     setPrice(0);
     setCategory("Tech");
@@ -30,42 +34,45 @@ const ProductForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+    <form onSubmit={handleSubmit} className="card space-y-4">
       <input
+        className="input-field"
+        type="text"
+        placeholder="Nombre"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        placeholder="Nombre"
-        className="w-full px-3 py-2 border rounded"
       />
       <input
+        className="input-field"
         type="number"
+        placeholder="Precio"
         value={price}
         onChange={(e) => setPrice(Number(e.target.value))}
-        placeholder="Precio"
-        className="w-full px-3 py-2 border rounded"
       />
       <select
+        className="input-field"
         value={category}
         onChange={(e) => setCategory(e.target.value)}
-        className="w-full px-3 py-2 border rounded"
       >
         <option value="Tech">Tech</option>
         <option value="Books">Books</option>
         <option value="Clothing">Clothing</option>
       </select>
       <input
+        className="input-field"
+        type="text"
+        placeholder="URL de imagen"
         value={image}
         onChange={(e) => setImage(e.target.value)}
-        placeholder="URL de imagen"
-        className="w-full px-3 py-2 border rounded"
       />
       <textarea
+        className="input-field"
+        placeholder="Descripción"
+        rows={3}
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        placeholder="Descripción"
-        className="w-full px-3 py-2 border rounded"
       />
-      <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">
+      <button type="submit" className="btn-primary w-fit">
         Añadir Producto
       </button>
     </form>
