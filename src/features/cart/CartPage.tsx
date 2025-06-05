@@ -10,18 +10,18 @@ const CartPage = () => {
       <div className="flex flex-col md:flex-row justify-around gap-8">
         <div className="flex-grow">
           <article>
-            <h2 className="font-heading text-xl font-semibold text-secondary-700 mb-6">
+            <h2 className="font-heading text-xl font-semibold text-secondary-700 dark:text-secondary-200 mb-6">
               Tu Carrito de Compras
             </h2>
             {products.length === 0 ? (
               <div className="flex items-center justify-center p-6">
-                <p className="font-medium text-secondary-600">
+                <p className="font-medium text-secondary-600 dark:text-secondary-400">
                   Tu carrito está vacío
                 </p>
               </div>
             ) : (
               <>
-                <div className="hidden md:block border-y-2 border-secondary-300 py-3 text-secondary-600 font-semibold">
+                <div className="hidden md:block border-y-2 border-secondary-300 dark:border-secondary-600 py-3 text-secondary-600 dark:text-secondary-400 font-semibold">
                   <ul className="grid grid-cols-[2fr_1fr_1fr] text-left">
                     <li className="pl-24">Item</li>
                     <li className="text-right">Precio</li>
@@ -32,16 +32,15 @@ const CartPage = () => {
                 {products.map((product) => (
                   <div
                     key={product.id}
-                    className="flex flex-col md:grid md:grid-cols-[2fr_1fr_1fr] items-center py-4 border-b border-secondary-200 last:border-b-0"
+                    className="flex flex-col md:grid md:grid-cols-[2fr_1fr_1fr] items-center py-4 border-b border-secondary-200 dark:border-secondary-700 last:border-b-0"
                   >
-                    {/* Product Info (Image + Name) - Always visible */}
                     <div className="flex items-center gap-4 mb-4 md:mb-0 w-full md:w-auto">
                       <img
                         className="h-24 w-24 object-scale-down flex-shrink-0"
                         src={product.imageUrl}
                         alt={product.name}
                       />
-                      <h3 className="text-secondary-800 font-medium text-base">
+                      <h3 className="text-secondary-800 dark:text-secondary-100 font-medium text-base">
                         {product.name}
                       </h3>
                     </div>
@@ -49,18 +48,17 @@ const CartPage = () => {
                     {/* Price and Quantity - Stacked on mobile, aligned on md+ */}
                     <div className="flex justify-between w-full md:contents">
                       {" "}
-                      {/* Use md:contents to remove flex and let grid take over */}
-                      <div className="text-left md:text-right text-secondary-700 font-medium">
-                        <span className="md:hidden text-secondary-600 mr-2">
+                      <div className="text-left md:text-right text-secondary-700 dark:text-secondary-200 font-medium">
+                        <span className="md:hidden text-secondary-600 dark:text-secondary-400 mr-2">
                           Precio:
                         </span>{" "}
                         {/* Label for mobile */}
                         <h4>${product.price.toFixed(2)}</h4>
                       </div>
-                      <div className="text-right md:text-right pr-0 md:pr-4 text-secondary-600 font-medium">
-                        <span className="md:hidden text-secondary-600 mr-2">
+                      <div className="text-right md:text-right pr-0 md:pr-4 text-secondary-600 dark:text-secondary-400 font-medium">
+                        <span className="md:hidden text-secondary-600 dark:text-secondary-400 mr-2">
                           Cantidad:
-                        </span>{" "}
+                        </span>
                         {/* Label for mobile */}
                         <p>2 unidades</p>
                       </div>
@@ -68,10 +66,10 @@ const CartPage = () => {
                   </div>
                 ))}
 
-                <div className="flex justify-end p-4 border-t-2 border-secondary-300 mt-4">
-                  <p className="text-lg font-semibold text-secondary-800">
-                    Subtotal:{" "}
-                    <span className="text-primary-600">${subtotal}</span>
+                <div className="flex justify-end p-4 border-t-2 border-secondary-300 dark:border-secondary-600 mt-4">
+                  <p className="text-lg font-semibold text-secondary-800 dark:text-secondary-100">
+                    Subtotal:
+                    <span className="text-primary-600 dark:text-primary-400">${subtotal}</span>
                   </p>
                 </div>
               </>
@@ -80,29 +78,26 @@ const CartPage = () => {
         </div>
 
         <div className="md:w-1/3 lg:w-1/4 w-full mt-8 md:mt-0">
-          {" "}
-          {/* Full width on mobile, then specific widths */}
-          <aside className="bg-secondary-100 p-6 rounded-lg shadow-card">
-            <h3 className="font-heading text-lg font-semibold text-secondary-700 mb-4 pb-3 border-b border-secondary-200">
+          <aside className="bg-secondary-100 dark:bg-secondary-800 p-6 rounded-lg shadow-card">
+            <h3 className="font-heading text-lg font-semibold text-secondary-700 dark:text-secondary-200 mb-4 pb-3 border-b border-secondary-200 dark:border-secondary-700">
               Resumen de compra
             </h3>
-            <ul className="space-y-3 text-secondary-600">
+            <ul className="space-y-3 text-secondary-600 dark:text-secondary-400">
               <li className="flex justify-between items-center">
                 <span>Cantidad de productos:</span>
-                <span className="font-medium text-secondary-800">
+                <span className="font-medium text-secondary-800 dark:text-secondary-100">
                   4 items
-                </span>{" "}
-                {/* This should be dynamic */}
+                </span>
               </li>
               <li className="flex justify-between items-center">
                 <span>Subtotal:</span>
-                <span className="font-medium text-secondary-800">
+                <span className="font-medium text-secondary-800 dark:text-secondary-100">
                   ${subtotal}
                 </span>
               </li>
-              <li className="flex justify-between items-center pt-3 border-t border-secondary-200 font-semibold text-lg text-secondary-800">
+              <li className="flex justify-between items-center pt-3 border-t border-secondary-200 dark:border-secondary-700 font-semibold text-lg text-secondary-800 dark:text-secondary-100">
                 <span>Total:</span>
-                <span className="text-primary-600">${subtotal}</span>
+                <span className="text-primary-600 dark:text-primary-400">${subtotal}</span>
               </li>
             </ul>
             <button
