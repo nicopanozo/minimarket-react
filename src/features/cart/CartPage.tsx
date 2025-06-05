@@ -1,20 +1,24 @@
-import { products } from "../../data/products";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../redux/store";
+import type { CartItem } from "./cartSlice";
 
 const CartPage = () => {
-  const subtotal = products
-    .reduce((sum, product) => sum + product.price * 2, 0)
-    .toFixed(2);
+  const cartITems = useSelector((state: RootState) => state.cart.items);
+  const totalQuantity = useSelector(
+    (state: RootState) => state.cart.totalQuantity,
+  );
+  const totalPrice = useSelector((state: RootState) => state.cart.totalPrice);
 
   return (
     <section className="container mx-auto p-4 sm:p-6 max-w-[90%]">
       <div className="flex flex-col md:flex-row justify-around gap-8">
         <div className="flex-grow">
           <article>
-            <h2 className="font-heading text-xl font-semibold text-secondary-700 dark:text-secondary-200 mb-6">
+            <h2 className="font-heading text-xl font-semibold text-secondary-700 dark:text-secondary-200 mb-10">
               Tu Carrito de Compras
             </h2>
-            {products.length === 0 ? (
-              <div className="flex items-center justify-center p-6">
+            {cartITems.length === 0 ? (
+              <div className="flex items-center justify-center px-6 py-10">
                 <p className="font-medium text-secondary-600 dark:text-secondary-400">
                   Tu carrito está vacío
                 </p>
@@ -29,7 +33,7 @@ const CartPage = () => {
                   </ul>
                 </div>
 
-                {products.map((product) => (
+                {cartITems.map((product: CartItem) => (
                   <div
                     key={product.id}
                     className="flex flex-col md:grid md:grid-cols-[2fr_1fr_1fr] items-center py-4 border-b border-secondary-200 dark:border-secondary-700 last:border-b-0"
@@ -60,7 +64,7 @@ const CartPage = () => {
                           Cantidad:
                         </span>
                         {/* Label for mobile */}
-                        <p>2 unidades</p>
+                        <p>{product.quantity} unidades</p>
                       </div>
                     </div>
                   </div>
@@ -69,7 +73,9 @@ const CartPage = () => {
                 <div className="flex justify-end p-4 border-t-2 border-secondary-300 dark:border-secondary-600 mt-4">
                   <p className="text-lg font-semibold text-secondary-800 dark:text-secondary-100">
                     Subtotal:
-                    <span className="text-primary-600 dark:text-primary-400">${subtotal}</span>
+                    <span className="text-primary-600 dark:text-primary-400">
+                      ${totalPrice}
+                    </span>
                   </p>
                 </div>
               </>
@@ -86,18 +92,20 @@ const CartPage = () => {
               <li className="flex justify-between items-center">
                 <span>Cantidad de productos:</span>
                 <span className="font-medium text-secondary-800 dark:text-secondary-100">
-                  4 items
+                  {totalQuantity}
                 </span>
               </li>
               <li className="flex justify-between items-center">
                 <span>Subtotal:</span>
                 <span className="font-medium text-secondary-800 dark:text-secondary-100">
-                  ${subtotal}
+                  ${totalPrice}
                 </span>
               </li>
               <li className="flex justify-between items-center pt-3 border-t border-secondary-200 dark:border-secondary-700 font-semibold text-lg text-secondary-800 dark:text-secondary-100">
                 <span>Total:</span>
-                <span className="text-primary-600 dark:text-primary-400">${subtotal}</span>
+                <span className="text-primary-600 dark:text-primary-400">
+                  ${totalPrice}
+                </span>
               </li>
             </ul>
             <button
