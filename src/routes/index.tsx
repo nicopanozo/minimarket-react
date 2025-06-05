@@ -12,15 +12,9 @@ import ProtectedRoute from "../features/user/ProtectedRoute";
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
+      <Route path="/" element={<Home />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route
-        path="/"
-        element={
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        }
-      />
+
       <Route
         path="/cart"
         element={
