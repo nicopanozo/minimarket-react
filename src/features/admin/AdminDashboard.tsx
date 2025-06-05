@@ -9,7 +9,9 @@ const AdminDashboard = () => {
 
   return (
     <div className="container-custom py-8 space-y-10">
-      <h2 className="text-2xl font-bold heading-dark">Panel de Administración</h2>
+      <h2 className="text-2xl font-bold heading-dark">
+        Panel de Administración
+      </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Bloque de productos */}
