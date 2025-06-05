@@ -1,38 +1,45 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../redux/store";
+import { setProducts } from "../features/products/productsSlice";
+import { products as productsData } from "../data/products";
+import ProductList from "../features/products/ProductList";
 
 const Home: React.FC = () => {
+  const products = useSelector((state: RootState) => state.products);
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(setProducts(productsData))
+  }, [])
+
   return (
-    <div className="container-custom py-8">
-      {/* Hero Section */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-6xl font-bold heading-dark mb-4">
-          Bienvenido a{" "}
-          <span className="text-primary-600 dark:text-primary-400">
-            MiniMarket
-          </span>
-        </h1>
-        <p className="text-xl subtle-text max-w-2xl mx-auto">
-          Tu tienda online de confianza. Encuentra todo lo que necesitas con la
-          mejor calidad y precios.
-        </p>
+    <div
+      id="home"
+      className="flex flex-col md:flex-row gap-4 p-4 md:p-6 lg:p-8"
+    >
+      <div className="flex flex-col border border-gray-300 rounded-lg bg-white p-4 w-full md:w-1/5">
+        <h2 className="text-lg font-medium mb-4">Filters</h2>
+        <div className="flex flex-col gap-2">
+          <label className="text-sm">Category</label>
+          <select className="border border-gray-300 rounded px-2 py-1" title="filterSelect">
+            <option>All</option>
+            <option>Category A</option>
+            <option>Category B</option>
+          </select>
+
+          <label className="text-sm mt-2">Price Range</label>
+          <input
+            title="filter"
+            type="range"
+            className="w-full"
+            min="0"
+            max="100"
+          />
+        </div>
       </div>
 
-      {/* Placeholder Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[1, 2, 3].map((item) => (
-          <div
-            key={item}
-            className="card hover:shadow-card-hover transition-shadow"
-          >
-            <div className="h-48 bg-gray-200 dark:bg-gray-700 rounded-lg mb-4 animate-pulse"></div>
-            <h3 className="text-lg font-semibold heading-dark mb-2">
-              Producto {item}
-            </h3>
-            <p className="subtle-text mb-4">Descripción del producto aquí...</p>
-            <button className="btn-primary w-full">Ver más</button>
-          </div>
-        ))}
-      </div>
+      <ProductList products={products} />
     </div>
   );
 };
