@@ -1,13 +1,11 @@
-import type { Product } from "./productsSlice"
+import type { Product } from "./productsSlice";
 
 interface ProductCardProps {
   product: Product;
 }
 const ProductCard = ({ product }: ProductCardProps) => {
   return (
-    <div
-      className="flex flex-col border border-gray-300 rounded-lg bg-white p-4"
-    >
+    <div className="flex flex-col border border-gray-300 rounded-lg bg-white p-4">
       <img
         alt=""
         className="w-full h-auto rounded mb-4"
@@ -19,7 +17,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         Add to Cart
       </button>
     </div>
-  )
-}
+  );
+};
 
 export default ProductCard;

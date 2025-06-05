@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Moon, Sun } from "lucide-react";
 
 const DarkModeToggle = () => {
   const [isDark, setIsDark] = useState(false);
@@ -21,10 +22,11 @@ const DarkModeToggle = () => {
 
   return (
     <button
-      className="btn-secondary text-sm"
       onClick={() => setIsDark((prev) => !prev)}
+      className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+      aria-label="Toggle Dark Mode"
     >
-      {isDark ? "☀️ Modo Claro" : "🌙 Modo Oscuro"}
+      {isDark ? <Sun size={20} /> : <Moon size={20} />}
     </button>
   );
 };

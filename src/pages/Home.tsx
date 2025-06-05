@@ -10,8 +10,8 @@ const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(setProducts(productsData))
-  }, [])
+    dispatch(setProducts(productsData));
+  }, []);
 
   return (
     <div
@@ -22,7 +22,10 @@ const Home: React.FC = () => {
         <h2 className="text-lg font-medium mb-4">Filters</h2>
         <div className="flex flex-col gap-2">
           <label className="text-sm">Category</label>
-          <select className="border border-gray-300 rounded px-2 py-1" title="filterSelect">
+          <select
+            className="border border-gray-300 rounded px-2 py-1"
+            title="filterSelect"
+          >
             <option>All</option>
             <option>Category A</option>
             <option>Category B</option>
