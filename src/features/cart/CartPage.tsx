@@ -1,13 +1,23 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
-import type { CartItem } from "./cartSlice";
+import { removeItem, type CartItem } from "./cartSlice";
+import { Trash2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
-  const cartITems = useSelector((state: RootState) => state.cart.items);
+  const cartItems = useSelector((state: RootState) => state.cart.items);
   const totalQuantity = useSelector(
     (state: RootState) => state.cart.totalQuantity,
   );
   const totalPrice = useSelector((state: RootState) => state.cart.totalPrice);
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const toCheckout = () => {
+    navigate("/checkout")
+  }
 
   return (
     <section className="container mx-auto p-4 sm:p-6 max-w-[90%]">
@@ -17,7 +27,7 @@ const CartPage = () => {
             <h2 className="font-heading text-xl font-semibold text-secondary-700 dark:text-secondary-200 mb-10">
               Tu Carrito de Compras
             </h2>
-            {cartITems.length === 0 ? (
+            {cartItems.length === 0 ? (
               <div className="flex items-center justify-center px-6 py-10">
                 <p className="font-medium text-secondary-600 dark:text-secondary-400">
                   Tu carrito está vacío
@@ -33,7 +43,7 @@ const CartPage = () => {
                   </ul>
                 </div>
 
-                {cartITems.map((product: CartItem) => (
+                {cartItems.map((product: CartItem) => (
                   <div
                     key={product.id}
                     className="flex flex-col md:grid md:grid-cols-[2fr_1fr_1fr] items-center py-4 border-b border-secondary-200 dark:border-secondary-700 last:border-b-0"
@@ -47,6 +57,13 @@ const CartPage = () => {
                       <h3 className="text-secondary-800 dark:text-secondary-100 font-medium text-base">
                         {product.name}
                       </h3>
+                      <button
+                        className="text-red-600 hover:text-red-800 text-sm font-semibold mt-1"
+                        type="button"
+                        onClick={() => dispatch(removeItem(product.id))}
+                      >
+                        <Trash2 />
+                      </button>
                     </div>
 
                     {/* Price and Quantity - Stacked on mobile, aligned on md+ */}
@@ -111,6 +128,7 @@ const CartPage = () => {
             <button
               type="button"
               className="mt-6 w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-4 rounded-md transition duration-300 ease-in-out shadow-md"
+              onClick={toCheckout}
             >
               Finalizar Compra
             </button>
