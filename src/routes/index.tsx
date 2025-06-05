@@ -8,6 +8,7 @@ import AdminDashboard from "../features/admin/AdminDashboard";
 import CartPage from "../features/cart/CartPage";
 import NotFound from "../pages/NotFound";
 import ProtectedRoute from "../features/user/ProtectedRoute";
+import ProductDetail from "../features/products/ProductDetail";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -52,6 +53,13 @@ const AppRoutes: React.FC = () => {
           <ProtectedRoute requireAdmin={true}>
             <AdminDashboard />
           </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/product-detail"
+        element={
+          <ProductDetail />
         }
       />
       <Route path="*" element={<NotFound />} />
