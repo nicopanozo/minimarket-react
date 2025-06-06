@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 export interface User {
   email: string;
@@ -22,10 +22,10 @@ const initialState: UserState = {
 };
 
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
-    loginStart: (state) => {
+    loginStart: state => {
       state.loading = true;
       state.error = null;
     },
@@ -41,13 +41,13 @@ const userSlice = createSlice({
       state.user = null;
       state.isAuthenticated = false;
     },
-    logout: (state) => {
+    logout: state => {
       state.user = null;
       state.isAuthenticated = false;
       state.loading = false;
       state.error = null;
     },
-    clearError: (state) => {
+    clearError: state => {
       state.error = null;
     },
   },

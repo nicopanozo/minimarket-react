@@ -7,16 +7,21 @@ MiniMarket is a modern e-commerce application built with React, TypeScript, Vite
 ```
 npm install
 ```
+
 ```
 npm install react-router-dom@6
 ```
+
 ```
 npm install @reduxjs/toolkit react-redux
 ```
+
 ```
 npm install react-hook-form yup @hookform/resolvers
 ```
+
 # Instalar TailwindCSS versión 3
+
 npm install -D tailwindcss@3
 npx tailwindcss init
 npm install -D tailwindcss postcss autoprefixer
@@ -121,10 +126,10 @@ This project uses **Prettier** for consistent code style.
 
 ### 🛠 Usage
 
-| Command              | Description                                         |
-|----------------------|-----------------------------------------------------|
-| `npm run format`      | Formats the entire project based on `.prettierrc`   |
-| `npm run format:check`| Checks if files are correctly formatted (read-only) |
+| Command                | Description                                         |
+| ---------------------- | --------------------------------------------------- |
+| `npm run format`       | Formats the entire project based on `.prettierrc`   |
+| `npm run format:check` | Checks if files are correctly formatted (read-only) |
 
 ### 💡 VSCode
 

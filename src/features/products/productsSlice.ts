@@ -1,4 +1,4 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 export type Product = {
   id: number;
@@ -14,7 +14,7 @@ type ProductsState = Product[];
 const initialState: ProductsState = [];
 
 const productsSlice = createSlice({
-  name: "products",
+  name: 'products',
   initialState,
   reducers: {
     setProducts(state, action: PayloadAction<Product[]>) {
@@ -22,7 +22,7 @@ const productsSlice = createSlice({
     },
     addProduct(state, action: PayloadAction<Product>) {
       state.push(action.payload);
-    }
+    },
   },
 });
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 interface Order {
   id: string;
@@ -12,7 +12,7 @@ const OrderTable = () => {
   const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
-    const raw = localStorage.getItem("orders");
+    const raw = localStorage.getItem('orders');
     if (raw) {
       setOrders(JSON.parse(raw));
     }
@@ -37,7 +37,7 @@ const OrderTable = () => {
               </td>
             </tr>
           ) : (
-            orders.map((order) => (
+            orders.map(order => (
               <tr key={order.id}>
                 <td className="py-2 px-4">{order.email}</td>
                 <td className="py-2 px-4 space-y-1">
