@@ -14,6 +14,7 @@ describe('addItem', () => {
       name: 'Nintedo switch',
       price: 135,
       quantity: 2,
+      imageUrl: '',
     };
 
     const newItem = cartReducer(initialState, addItem(sampleCartItem));
@@ -29,9 +30,27 @@ describe('removeItem', () => {
     function getMockCartState() {
       return {
         items: [
-          { id: 'a', name: 'Nintendo switch', price: 135, quantity: 2 },
-          { id: 'b', name: 'MacbookPro', price: 1567, quantity: 1 },
-          { id: 'c', name: 'Corsair hs80 Wireless', price: 175, quantity: 4 },
+          {
+            id: 'a',
+            name: 'Nintendo switch',
+            price: 135,
+            quantity: 2,
+            imageUrl: '',
+          },
+          {
+            id: 'b',
+            name: 'MacbookPro',
+            price: 1567,
+            quantity: 1,
+            imageUrl: '',
+          },
+          {
+            id: 'c',
+            name: 'Corsair hs80 Wireless',
+            price: 175,
+            quantity: 4,
+            imageUrl: '',
+          },
         ],
         totalQuantity: 7,
         totalPrice: 2537,
