@@ -1,8 +1,8 @@
-import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "../../redux/store";
-import { removeItem, type CartItem } from "./cartSlice";
-import { Trash2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '../../redux/store';
+import { removeItem, type CartItem } from './cartSlice';
+import { Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const CartPage = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
@@ -16,8 +16,8 @@ const CartPage = () => {
   const navigate = useNavigate();
 
   const toCheckout = () => {
-    navigate("/checkout")
-  }
+    navigate('/checkout');
+  };
 
   return (
     <section className="container mx-auto p-4 sm:p-6 max-w-[90%]">
@@ -68,11 +68,11 @@ const CartPage = () => {
 
                     {/* Price and Quantity - Stacked on mobile, aligned on md+ */}
                     <div className="flex justify-between w-full md:contents">
-                      {" "}
+                      {' '}
                       <div className="text-left md:text-right text-secondary-700 dark:text-secondary-200 font-medium">
                         <span className="md:hidden text-secondary-600 dark:text-secondary-400 mr-2">
                           Precio:
-                        </span>{" "}
+                        </span>{' '}
                         {/* Label for mobile */}
                         <h4>${product.price.toFixed(2)}</h4>
                       </div>

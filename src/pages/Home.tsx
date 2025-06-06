@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../redux/store";
-import { setProducts } from "../features/products/productsSlice";
-import { products as productsData } from "../data/products";
-import ProductList from "../features/products/ProductList";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from '../redux/store';
+import { setProducts } from '../features/products/productsSlice';
+import { products as productsData } from '../data/products';
+import ProductList from '../features/products/ProductList';
 
 const Home: React.FC = () => {
   const products = useSelector((state: RootState) => state.products);

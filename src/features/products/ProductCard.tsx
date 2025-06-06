@@ -1,4 +1,4 @@
-import type { Product } from "./productsSlice";
+import type { Product } from './productsSlice';
 
 interface ProductCardProps {
   product: Product;

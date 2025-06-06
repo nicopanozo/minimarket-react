@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../redux/store";
-import { logout } from "../features/user/userSlice";
-import DarkModeToggle from "./DarkModeToggle";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import type { RootState } from '../redux/store';
+import { logout } from '../features/user/userSlice';
+import DarkModeToggle from './DarkModeToggle';
 
 const Navbar: React.FC = () => {
   const { user, isAuthenticated } = useSelector(
@@ -15,7 +15,7 @@ const Navbar: React.FC = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate("/");
+    navigate('/');
     setMenuOpen(false);
   };
 
