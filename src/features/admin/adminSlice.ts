@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface Product {
   id: string;
@@ -19,14 +19,14 @@ const initialState: AdminState = {
 };
 
 const adminSlice = createSlice({
-  name: "admin",
+  name: 'admin',
   initialState,
   reducers: {
     addProduct(state, action: PayloadAction<Product>) {
       state.products.push(action.payload);
     },
     deleteProduct(state, action: PayloadAction<string>) {
-      state.products = state.products.filter((p) => p.id !== action.payload);
+      state.products = state.products.filter(p => p.id !== action.payload);
     },
   },
 });

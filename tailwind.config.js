@@ -1,10 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}"
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       // Colores personalizados para MiniMarket
@@ -52,36 +49,37 @@ module.exports = {
           500: '#ef4444',
           600: '#dc2626',
           700: '#b91c1c',
-        }
+        },
       },
-      
+
       // Fuentes personalizadas
       fontFamily: {
-        'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        'heading': ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        heading: ['Inter', 'system-ui', 'sans-serif'],
       },
-      
+
       // Espaciado personalizado
       spacing: {
-        '18': '4.5rem',
-        '88': '22rem',
-        '128': '32rem',
+        18: '4.5rem',
+        88: '22rem',
+        128: '32rem',
       },
-      
+
       // Sombras personalizadas
       boxShadow: {
-        'card': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-        'card-hover': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-        'navbar': '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
+        card: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+        'card-hover':
+          '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        navbar: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
       },
-      
+
       // Animaciones personalizadas
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'slide-up': 'slideUp 0.3s ease-out',
         'pulse-slow': 'pulse 3s infinite',
       },
-      
+
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0', transform: 'translateY(10px)' },
@@ -90,14 +88,14 @@ module.exports = {
         slideUp: {
           '0%': { transform: 'translateY(100%)' },
           '100%': { transform: 'translateY(0)' },
-        }
+        },
       },
-      
+
       // Breakpoints personalizados si es necesario
       screens: {
-        'xs': '475px',
+        xs: '475px',
       },
     },
   },
   plugins: [],
-}
+};

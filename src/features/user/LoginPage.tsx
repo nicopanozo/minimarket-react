@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import type { RootState } from "../../redux/store";
-import { loginStart, loginSuccess, loginFailure } from "./userSlice";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import type { RootState } from '../../redux/store';
+import { loginStart, loginSuccess, loginFailure } from './userSlice';
 
 const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, error } = useSelector((state: RootState) => state.user);
@@ -15,16 +15,16 @@ const LoginPage: React.FC = () => {
   const simulateLogin = (email: string): Promise<any> => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        if (email.includes("@")) {
-          const isAdmin = email === "admin@minimarket.com";
-          const name = email.split("@")[0];
+        if (email.includes('@')) {
+          const isAdmin = email === 'admin@minimarket.com';
+          const name = email.split('@')[0];
           resolve({
             email,
             name: name.charAt(0).toUpperCase() + name.slice(1),
             isAdmin,
           });
         } else {
-          reject("Email inválido");
+          reject('Email inválido');
         }
       }, 1000);
     });
@@ -34,7 +34,7 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
 
     if (!email || !password) {
-      dispatch(loginFailure("Por favor, completa todos los campos"));
+      dispatch(loginFailure('Por favor, completa todos los campos'));
       return;
     }
 
@@ -45,9 +45,9 @@ const LoginPage: React.FC = () => {
 
       // Redirigir según el tipo de usuario
       if (userData.isAdmin) {
-        navigate("/admin");
+        navigate('/admin');
       } else {
-        navigate("/");
+        navigate('/');
       }
     } catch (error) {
       dispatch(loginFailure(error as string));
@@ -80,7 +80,7 @@ const LoginPage: React.FC = () => {
                 id="email"
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
                 className="input-field"
                 placeholder="tu@email.com"
                 disabled={loading}
@@ -98,7 +98,7 @@ const LoginPage: React.FC = () => {
                 id="password"
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
                 className="input-field"
                 placeholder="••••••••"
                 disabled={loading}
@@ -108,7 +108,7 @@ const LoginPage: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`btn-primary w-full ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+              className={`btn-primary w-full ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               {loading ? (
                 <span className="flex items-center justify-center">
@@ -135,7 +135,7 @@ const LoginPage: React.FC = () => {
                   Iniciando sesión...
                 </span>
               ) : (
-                "Iniciar Sesión"
+                'Iniciar Sesión'
               )}
             </button>
           </form>

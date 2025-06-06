@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addProduct } from "./adminSlice";
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addProduct } from './adminSlice';
 
 const ProductForm = () => {
   const dispatch = useDispatch();
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
-  const [category, setCategory] = useState("Tech");
-  const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
+  const [category, setCategory] = useState('Tech');
+  const [description, setDescription] = useState('');
+  const [image, setImage] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,11 +26,11 @@ const ProductForm = () => {
       }),
     );
 
-    setName("");
+    setName('');
     setPrice(0);
-    setCategory("Tech");
-    setDescription("");
-    setImage("");
+    setCategory('Tech');
+    setDescription('');
+    setImage('');
   };
 
   return (
@@ -40,19 +40,19 @@ const ProductForm = () => {
         type="text"
         placeholder="Nombre"
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={e => setName(e.target.value)}
       />
       <input
         className="input-field"
         type="number"
         placeholder="Precio"
         value={price}
-        onChange={(e) => setPrice(Number(e.target.value))}
+        onChange={e => setPrice(Number(e.target.value))}
       />
       <select
         className="input-field"
         value={category}
-        onChange={(e) => setCategory(e.target.value)}
+        onChange={e => setCategory(e.target.value)}
       >
         <option value="Tech">Tech</option>
         <option value="Books">Books</option>
@@ -63,14 +63,14 @@ const ProductForm = () => {
         type="text"
         placeholder="URL de imagen"
         value={image}
-        onChange={(e) => setImage(e.target.value)}
+        onChange={e => setImage(e.target.value)}
       />
       <textarea
         className="input-field"
         placeholder="Descripción"
         rows={3}
         value={description}
-        onChange={(e) => setDescription(e.target.value)}
+        onChange={e => setDescription(e.target.value)}
       />
       <button type="submit" className="btn-primary w-fit">
         Añadir Producto

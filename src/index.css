@@ -26,7 +26,7 @@
     @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 ease-in-out;
     margin: 0;
     font-family:
-      "Inter",
+      'Inter',
       system-ui,
       -apple-system,
       sans-serif;
