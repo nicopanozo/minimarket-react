@@ -13,15 +13,9 @@ import ProductDetail from "../features/products/ProductDetail";
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
+      <Route path="/" element={<Home />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route
-        path="/"
-        element={
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        }
-      />
+
       <Route
         path="/cart"
         element={
