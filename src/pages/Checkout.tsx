@@ -34,7 +34,8 @@ const CheckoutPage = () => {
   };
 
   const onSubmit: SubmitHandler<CheckoutFormInputs> = data => {
-    const orderNumber = crypto.randomUUID();
+    const orderId = crypto.randomUUID();
+    const orderNumber = orderId.slice(-12);
 
     // Simulate getting card type and last four digits
     const lastFour = data.cardNumber.slice(-4);
