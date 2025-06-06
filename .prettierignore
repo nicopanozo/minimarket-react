@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+dist/
+build/
+.next/
+.nuxt/
+
+# Generated files
+*.min.js
+*.min.css
+coverage/
+.nyc_output/
+
+# Config files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+dist-ssr/
+*.local
+
+# Testing files
+.vitest/
+.coverage/
+
+# Logs
+logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

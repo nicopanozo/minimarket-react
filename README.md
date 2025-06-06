@@ -106,7 +106,30 @@ To start the development server, run:
 npm run dev
 ```
 
-Open your browser and navigate to `http://localhost:3000` to see the application in action.
+Open your browser and navigate to `http://localhost:5173` to see the application in action.
+
+## 🧹 Code Formatting
+
+This project uses **Prettier** for consistent code style.
+
+### 🔧 Scripts
+
+```json
+"format": "prettier --write .",
+"format:check": "prettier --check ."
+```
+
+### 🛠 Usage
+
+| Command              | Description                                         |
+|----------------------|-----------------------------------------------------|
+| `npm run format`      | Formats the entire project based on `.prettierrc`   |
+| `npm run format:check`| Checks if files are correctly formatted (read-only) |
+
+### 💡 VSCode
+
+- Requires [Prettier extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- Auto-format on save is preconfigured in `.vscode/settings.json`
 
 ### Folder Structure
 
