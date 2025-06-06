@@ -12,7 +12,13 @@ const LoginPage: React.FC = () => {
   const { loading, error } = useSelector((state: RootState) => state.user);
 
   // Función para simular login (reemplazar con API real más tarde)
-  const simulateLogin = (email: string): Promise<any> => {
+  type UserData = {
+    email: string;
+    name: string;
+    isAdmin: boolean;
+  };
+
+  const simulateLogin = (email: string): Promise<UserData> => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (email.includes('@')) {
