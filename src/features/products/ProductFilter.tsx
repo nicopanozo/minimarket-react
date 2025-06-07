@@ -1,4 +1,27 @@
-const ProductFilter: React.FC = () => {
+import type { PriceRange } from '../../types/PriceRange';
+import categoriesData, { type Category } from '../../data/categories';
+import { priceRangeData } from '../../data/priceRanges';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '../../redux/store';
+import { toggleCategory, togglePriceRange } from './filtersSlice';
+
+const ProductFilter = () => {
+  const selectedCategories = useSelector(
+    (state: RootState) => state.filters.selectedCategories,
+  );
+  const selectedPriceRanges = useSelector(
+    (state: RootState) => state.filters.selectedPriceRanges,
+  );
+  const dispatch = useDispatch();
+
+  const handleCategoryChange = (category: Category) => {
+    dispatch(toggleCategory(category.id));
+  };
+
+  const handlePriceRangeChange = (priceRange: PriceRange) => {
+    dispatch(togglePriceRange(priceRange.id));
+  };
+
   return (
     <div
       id="filter"
@@ -51,26 +74,19 @@ const ProductFilter: React.FC = () => {
             Category
           </span>
           <ul id="filter__list" className="flex flex-col">
-            <li className="flex items-center gap-2">
-              <input type="checkbox" />
-              Books
-            </li>
-            <li className="flex items-center gap-2">
-              <input type="checkbox" />
-              Tech
-            </li>
-            <li className="flex items-center gap-2">
-              <input type="checkbox" />
-              Clothing
-            </li>
-            <li className="flex items-center gap-2">
-              <input type="checkbox" />
-              Paris
-            </li>
-            <li className="flex items-center gap-2">
-              <input type="checkbox" />
-              Home
-            </li>
+            {categoriesData.map(category => {
+              return (
+                <li key={category.id} className="flex items-center gap-2">
+                  <input
+                    title="category"
+                    type="checkbox"
+                    checked={selectedCategories.some(c => c.id === category.id)}
+                    onChange={() => handleCategoryChange(category)}
+                  />
+                  {category.name}
+                </li>
+              );
+            })}
           </ul>
         </div>
         <div id="filter__group" className="flex flex-col gap-2">
@@ -78,26 +94,21 @@ const ProductFilter: React.FC = () => {
             Price
           </span>
           <ul id="filter__list">
-            <li className="flex items-center gap-2">
-              <input type="checkbox" />
-              &lt; $20
-            </li>
-            <li className="flex items-center gap-2">
-              <input type="checkbox" />
-              $20 - $50
-            </li>
-            <li className="flex items-center gap-2">
-              <input type="checkbox" />
-              $50 - $100
-            </li>
-            <li className="flex items-center gap-2">
-              <input type="checkbox" />
-              $50 - $150
-            </li>
-            <li className="flex items-center gap-2">
-              <input type="checkbox" />
-              $150+
-            </li>
+            {priceRangeData.map(priceRange => {
+              return (
+                <li key={priceRange.id} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    title="priceFilter"
+                    checked={selectedPriceRanges.some(
+                      spr => spr.id === priceRange.id,
+                    )}
+                    onChange={() => handlePriceRangeChange(priceRange)}
+                  />
+                  {priceRange.label}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>
