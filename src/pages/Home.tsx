@@ -1,18 +1,9 @@
 import ProductList from '../features/products/ProductList';
 import ProductFilter from '../features/products/ProductFilter';
-import { setProducts } from '../features/products/productsSlice';
-import { products as productsData } from '../data/products';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AppDispatch, RootState } from '../redux/store';
+import { useEffect } from 'react';
 
 const Home: React.FC = () => {
-  const products = useSelector((state: RootState) => state.products);
-  const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
-    dispatch(setProducts(productsData));
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div
@@ -21,7 +12,7 @@ const Home: React.FC = () => {
     >
       <ProductFilter />
       <div className="w-full md:w-4/5">
-        <ProductList products={products} />
+        <ProductList />
       </div>
     </div>
   );
