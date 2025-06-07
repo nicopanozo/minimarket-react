@@ -21,6 +21,7 @@ const ProductDetail: React.FC = () => {
               className="lg:basis-1/2 rounded-xl overflow-hidden shadow-sm"
             >
               <img
+                alt="test image"
                 className="w-full h-full object-cover"
                 src="https://picsum.photos/seed/lamp/400/300"
               />
@@ -86,6 +87,7 @@ const ProductDetail: React.FC = () => {
                 >
                   <div id="card__image" className="w-full h-48 bg-gray-100">
                     <img
+                      alt="another test image"
                       className="w-full h-full object-cover"
                       src="https://picsum.photos/seed/lamp/400/300"
                     />

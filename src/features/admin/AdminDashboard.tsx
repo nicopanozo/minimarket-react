@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../../redux/store';
 import { useEffect, useState } from 'react';
 import { setProducts } from '../products/productsSlice';
-import { products as initialProducts } from '../../data/products';
+import { productsData as initialProducts } from '../../data/products';
 import OrderTable from './OrderTable';
 import ProductFormModal from './ProductForm';
 import { Plus } from 'lucide-react';

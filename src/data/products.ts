@@ -1,6 +1,6 @@
-import type { Product } from '../features/products/productsSlice';
+import type { Product } from '../types/Product';
 
-export const products: Product[] = [
+export const productsData: Product[] = [
   {
     id: 1,
     name: 'Wireless Headphones',
