@@ -3,7 +3,12 @@ import categoriesData, { type Category } from '../../data/categories';
 import { priceRangeData } from '../../data/priceRanges';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../../redux/store';
-import { toggleCategory, togglePriceRange } from './filtersSlice';
+import {
+  setSearchText,
+  toggleCategory,
+  togglePriceRange,
+} from './filtersSlice';
+import { useState } from 'react';
 
 const ProductFilter = () => {
   const selectedCategories = useSelector(
@@ -13,6 +18,7 @@ const ProductFilter = () => {
     (state: RootState) => state.filters.selectedPriceRanges,
   );
   const dispatch = useDispatch();
+  const [searchInput, setSearchInput] = useState<string>('');
 
   const handleCategoryChange = (category: Category) => {
     dispatch(toggleCategory(category.id));
@@ -20,6 +26,11 @@ const ProductFilter = () => {
 
   const handlePriceRangeChange = (priceRange: PriceRange) => {
     dispatch(togglePriceRange(priceRange.id));
+  };
+
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+    dispatch(setSearchText(e.target.value));
   };
 
   return (
@@ -36,9 +47,11 @@ const ProductFilter = () => {
       >
         <div id="filter__search" className="mb-4">
           <input
+            className="w-full px-4 py-2 border border-neutral-300 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:border-blue-600 transition-colors bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
             type="text"
             placeholder="Search"
-            className="w-full px-4 py-2 border border-neutral-300 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:border-blue-600 transition-colors bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+            value={searchInput}
+            onChange={e => handleOnChange(e)}
           />
         </div>
         <div id="filter__controls" className="mb-6 flex flex-col">
