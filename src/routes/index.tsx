@@ -15,6 +15,7 @@ const AppRoutes: React.FC = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/products/:productId" element={<ProductDetail />} />
 
       <Route
         path="/cart"
@@ -50,7 +51,6 @@ const AppRoutes: React.FC = () => {
         }
       />
 
-      <Route path="/product-detail" element={<ProductDetail />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
