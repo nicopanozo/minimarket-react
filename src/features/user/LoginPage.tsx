@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import type { RootState } from '../../redux/store';
 import { loginStart, loginSuccess, loginFailure } from './userSlice';
+import type { User } from '../../utils/storage';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -11,8 +12,7 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { loading, error } = useSelector((state: RootState) => state.user);
 
-  // Función para simular login (reemplazar con API real más tarde)
-  const simulateLogin = (email: string): Promise<any> => {
+  const simulateLogin = (email: string): Promise<User> => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (email.includes('@')) {
@@ -43,7 +43,6 @@ const LoginPage: React.FC = () => {
       const userData = await simulateLogin(email);
       dispatch(loginSuccess(userData));
 
-      // Redirigir según el tipo de usuario
       if (userData.isAdmin) {
         navigate('/admin');
       } else {
