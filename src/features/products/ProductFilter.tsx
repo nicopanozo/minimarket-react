@@ -25,7 +25,7 @@ const ProductFilter = () => {
   return (
     <div
       id="filter"
-      className="h-max flex flex-col gap-4 p-4 rounded-2xl border border-neutral-300 bg-white w-full md:w-1/5"
+      className="h-max flex flex-col gap-4 p-4 rounded-2xl border border-neutral-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 w-full md:w-1/5"
     >
       <div id="filterButtonMobile" className="flex justify-end md:hidden">
         <button> show filters</button>
@@ -38,12 +38,12 @@ const ProductFilter = () => {
           <input
             type="text"
             placeholder="Search"
-            className="w-full px-4 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:border-blue-600 transition-colors"
+            className="w-full px-4 py-2 border border-neutral-300 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:border-blue-600 transition-colors bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
           />
         </div>
         <div id="filter__controls" className="mb-6 flex flex-col">
           <div id="filter__showControls" className="mb-2 flex justify-between">
-            <span className="text-sm font-medium text-neutral-700 uppercase tracking-wide">
+            <span className="text-sm font-medium text-neutral-700 dark:text-neutral-200 uppercase tracking-wide">
               Filters
             </span>
             <button className="text-sm text-blue-600 hover:bg-blue-50 px-3 py-1 rounded-full transition-colors">
@@ -70,7 +70,7 @@ const ProductFilter = () => {
           </div>
         </div>
         <div id="filter__group" className="mb-4 flex flex-col gap-2">
-          <span className="text-sm font-semibold text-neutral-800 uppercase tracking-wide">
+          <span className="text-sm font-semibold text-neutral-800 dark:text-gray-100 uppercase tracking-wide">
             Category
           </span>
           <ul id="filter__list" className="flex flex-col">
@@ -90,7 +90,7 @@ const ProductFilter = () => {
           </ul>
         </div>
         <div id="filter__group" className="flex flex-col gap-2">
-          <span className="text-sm font-semibold text-neutral-800 uppercase tracking-wide">
+          <span className="text-sm font-semibold text-neutral-800 dark:text-gray-100 uppercase tracking-wide">
             Price
           </span>
           <ul id="filter__list">
