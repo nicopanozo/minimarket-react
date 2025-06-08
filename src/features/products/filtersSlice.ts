@@ -7,11 +7,13 @@ import { priceRangeData } from '../../data/priceRanges';
 type FiltersState = {
   selectedCategories: Category[];
   selectedPriceRanges: PriceRange[];
+  searchText: string;
 };
 
 const initialState: FiltersState = {
   selectedCategories: [],
   selectedPriceRanges: [],
+  searchText: '',
 };
 
 const filtersSlice = createSlice({
@@ -45,8 +47,13 @@ const filtersSlice = createSlice({
         state.selectedPriceRanges.push(priceRange);
       }
     },
+
+    setSearchText(state, action: PayloadAction<string>) {
+      state.searchText = action.payload;
+    },
   },
 });
 
-export const { toggleCategory, togglePriceRange } = filtersSlice.actions;
+export const { toggleCategory, togglePriceRange, setSearchText } =
+  filtersSlice.actions;
 export default filtersSlice.reducer;

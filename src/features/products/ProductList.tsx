@@ -1,47 +1,55 @@
 import ProductCard from './ProductCard';
-import type { RootState, AppDispatch } from '../../redux/store';
-import { setProducts, type ProductsState } from './productsSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '../../redux/store';
+import { useSelector } from 'react-redux';
 import { productsData } from '../../data/products';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
+import type { Product } from '../../types/Product';
 
 const ProductList = () => {
-  const products = useSelector((state: RootState) => state.products);
-  const dispatch = useDispatch<AppDispatch>();
+  const products = productsData;
   const categories = useSelector(
     (state: RootState) => state.filters.selectedCategories,
   );
   const priceRanges = useSelector(
     (state: RootState) => state.filters.selectedPriceRanges,
   );
+  const searchText = useSelector(
+    (state: RootState) => state.filters.searchText,
+  );
 
-  useEffect(() => {
-    dispatch(setProducts(productsData));
-  }, []);
+  const filteredProducts: Product[] = useMemo(() => {
+    let filtered: Product[] = products;
 
-  const filteredProducts: ProductsState = useMemo(() => {
-    const categoryIds = categories.map(c => c.id);
-    const categoryFiltered =
-      categories.length === 0
-        ? products
-        : products.filter(p => categoryIds.includes(p.categoryId));
+    if (categories.length > 0) {
+      const categoryIds = categories.map(c => c.id);
+      filtered = products.filter(p => categoryIds.includes(p.categoryId));
+    }
 
-    if (priceRanges.length === 0) return categoryFiltered;
-    const priceRangeFiltered = categoryFiltered.filter(product =>
-      priceRanges.some(range => {
-        switch (range.filterType) {
-          case 'below':
-            return product.price < range.max!;
-          case 'range':
-            return product.price >= range.min! && product.price < range.max!;
-          case 'above':
-            return product.price > range.min!;
-        }
-      }),
-    );
+    if (priceRanges.length > 0) {
+      filtered = filtered.filter(product =>
+        priceRanges.some(range => {
+          switch (range.filterType) {
+            case 'below':
+              return product.price < range.max!;
+            case 'range':
+              return product.price >= range.min! && product.price < range.max!;
+            case 'above':
+              return product.price > range.min!;
+          }
+        }),
+      );
+    }
 
-    return priceRangeFiltered;
-  }, [categories, products, priceRanges]);
+    if (searchText.length > 0) {
+      filtered = filtered.filter(product =>
+        product.name
+          .toLocaleLowerCase()
+          .includes(searchText.toLocaleLowerCase()),
+      );
+    }
+
+    return filtered;
+  }, [categories, priceRanges, searchText]);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full md: flex-1">
