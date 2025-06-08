@@ -4,6 +4,7 @@ import type { Product } from '../../types/Product';
 interface ProductCardProps {
   product: Product;
 }
+
 const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <div className="flex flex-col border rounded-lg border-gray-300 dark:border-gray-700  dark:bg-gray-800 p-4 text-gray-900 dark:text-gray-100 cursor-pointer transition-shadow duration-300 hover:shadow-md dark:hover:ring-2 dark:hover:ring-white dark:hover:ring-opacity-20">
