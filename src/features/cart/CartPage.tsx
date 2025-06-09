@@ -127,7 +127,9 @@ const CartPage = () => {
             </ul>
             <button
               type="button"
-              className="mt-6 w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-4 rounded-md transition duration-300 ease-in-out shadow-md"
+              className={`mt-6 w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-4 rounded-md transition duration-300 ease-in-out shadow-md
+                ${cartItems.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}
+              `}
               onClick={toCheckout}
             >
               Finalizar Compra
