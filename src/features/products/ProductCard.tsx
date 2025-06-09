@@ -12,11 +12,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleOnClckAddToCart = () => {
-    const existingItemExist = cartItems.some(
+    const itemExists = cartItems.some(
       caritem => caritem.productId === product.id,
     );
 
-    if (existingItemExist) {
+    if (itemExists) {
       const cartItem = cartItems.find(
         cartItem => cartItem.productId === product.id,
       )!;
