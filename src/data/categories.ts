@@ -1,7 +1,4 @@
-export type Category = {
-  id: number;
-  name: string;
-};
+import type { Category } from '../types/Category';
 
 const categoriesData: Category[] = [
   {
@@ -14,14 +11,10 @@ const categoriesData: Category[] = [
   },
   {
     id: 3,
-    name: 'Clothing',
+    name: 'Pets',
   },
   {
     id: 4,
-    name: 'Paris',
-  },
-  {
-    id: 5,
     name: 'Home',
   },
 ];

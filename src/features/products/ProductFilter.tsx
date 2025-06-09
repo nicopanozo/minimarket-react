@@ -1,5 +1,6 @@
 import type { PriceRange } from '../../types/PriceRange';
-import categoriesData, { type Category } from '../../data/categories';
+import categoriesData from '../../data/categories';
+import type { Category } from '../../types/Category';
 import { priceRangeData } from '../../data/priceRanges';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../../redux/store';
