@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import type { RootState } from '../../redux/store';
 import { loginStart, loginSuccess, loginFailure } from './userSlice';
 import type { User } from '../../utils/storage';
 
+interface LoginFormData {
+  email: string;
+  password: string;
+}
+
 const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, error } = useSelector((state: RootState) => state.user);
@@ -24,23 +34,16 @@ const LoginPage: React.FC = () => {
             isAdmin,
           });
         } else {
-          reject('Email inválido');
+          reject('Invalid email');
         }
       }, 1000);
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!email || !password) {
-      dispatch(loginFailure('Por favor, completa todos los campos'));
-      return;
-    }
-
+  const onSubmit = async (data: LoginFormData) => {
     try {
       dispatch(loginStart());
-      const userData = await simulateLogin(email);
+      const userData = await simulateLogin(data.email);
       dispatch(loginSuccess(userData));
 
       if (userData.isAdmin) {
@@ -57,59 +60,79 @@ const LoginPage: React.FC = () => {
     <div className="container-custom py-8">
       <div className="max-w-md mx-auto">
         <div className="card">
-          <h1 className="text-3xl font-bold text-center text-secondary-900 mb-6">
-            Iniciar Sesión
+          <h1 className="text-3xl font-bold text-center text-secondary-900 dark:text-white mb-6">
+            Login
           </h1>
 
           {error && (
-            <div className="bg-danger-50 border border-danger-200 text-danger-700 px-4 py-3 rounded mb-4">
+            <div className="bg-danger-50 dark:bg-red-900/20 border border-danger-200 dark:border-red-600 text-danger-700 dark:text-red-400 px-4 py-3 rounded mb-4">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-secondary-700 mb-2"
+                className="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2"
               >
                 Email
               </label>
               <input
                 id="email"
                 type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                className="input-field"
-                placeholder="tu@email.com"
-                disabled={loading}
+                {...register('email', {
+                  required: 'Email is required',
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: 'Invalid email address',
+                  },
+                })}
+                className={`input-field ${errors.email ? 'border-red-500' : ''}`}
+                placeholder="your@email.com"
+                disabled={loading || isSubmitting}
               />
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
 
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-secondary-700 mb-2"
+                className="block text-sm font-medium text-secondary-700 dark:text-gray-300 mb-2"
               >
-                Contraseña
+                Password
               </label>
               <input
                 id="password"
                 type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                className="input-field"
+                {...register('password', {
+                  required: 'Password is required',
+                  minLength: {
+                    value: 1,
+                    message: 'Password must be at least 1 character',
+                  },
+                })}
+                className={`input-field ${errors.password ? 'border-red-500' : ''}`}
                 placeholder="••••••••"
-                disabled={loading}
+                disabled={loading || isSubmitting}
               />
+              {errors.password && (
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
             <button
               type="submit"
-              disabled={loading}
-              className={`btn-primary w-full ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              disabled={loading || isSubmitting}
+              className={`btn-primary w-full ${loading || isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-              {loading ? (
+              {loading || isSubmitting ? (
                 <span className="flex items-center justify-center">
                   <svg
                     className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
@@ -131,23 +154,23 @@ const LoginPage: React.FC = () => {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>
                   </svg>
-                  Iniciando sesión...
+                  Signing in...
                 </span>
               ) : (
-                'Iniciar Sesión'
+                'Sign In'
               )}
             </button>
           </form>
 
-          <div className="mt-6 p-4 bg-secondary-50 rounded-lg">
-            <p className="text-sm text-secondary-600 mb-2">
-              <strong>Para probar:</strong>
+          <div className="mt-6 p-4 bg-secondary-50 dark:bg-gray-700 rounded-lg">
+            <p className="text-sm text-secondary-600 dark:text-gray-300 mb-2">
+              <strong>Test credentials:</strong>
             </p>
-            <p className="text-xs text-secondary-500">
+            <p className="text-xs text-secondary-500 dark:text-gray-400">
               • Admin: admin@minimarket.com
               <br />
-              • Usuario: cualquier@email.com
-              <br />• Contraseña: cualquier texto
+              • User: any@email.com
+              <br />• Password: any text
             </p>
           </div>
         </div>
