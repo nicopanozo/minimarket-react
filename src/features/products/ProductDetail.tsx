@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import type { Product } from '../../types/Product';
 import { productsData } from '../../data/products';
-import { useDispatch } from 'react-redux';
-import type { AppDispatch } from '../../redux/store';
-import { addItem, type CartItem } from '../cart/cartSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from '../../redux/store';
+import { addItem, incrementQuantity, type CartItem } from '../cart/cartSlice';
 
 const ProductDetail: React.FC = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState<Product | undefined | null>(undefined);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const dispatch = useDispatch<AppDispatch>();
+  const cartItems = useSelector((state: RootState) => state.cart.items);
 
   useEffect(() => {
     const getProduct = (id: number) => {
@@ -34,27 +35,53 @@ const ProductDetail: React.FC = () => {
     }
   }, [productId]);
 
-  const handleOnClickAddToCart = () => {
+  const handleOnClckAddToCart = () => {
+    const itemExists = cartItems.some(
+      caritem => caritem.productId === product!.id,
+    );
+
+    if (itemExists) {
+      const cartItem = cartItems.find(
+        cartItem => cartItem.productId === product!.id,
+      )!;
+      dispatch(incrementQuantity(cartItem.id));
+      return;
+    }
+
     const newCartItem: CartItem = {
       id: Math.random().toString(36).slice(2, 11),
       name: product!.name,
       price: product!.price,
       quantity: 1,
       imageUrl: product!.imageUrl,
+      productId: product!.id,
     };
+
     dispatch(addItem(newCartItem));
   };
 
   const handleOnClickAddToCartId = (id: number) => {
     const product = relatedProducts.find(p => p.id === id)!;
+    const itemExists = cartItems.some(
+      caritem => caritem.productId === product!.id,
+    );
+    if (itemExists) {
+      const cartItem = cartItems.find(
+        cartItem => cartItem.productId === product!.id,
+      )!;
+      dispatch(incrementQuantity(cartItem.id));
+      return;
+    }
 
     const newCartItem: CartItem = {
       id: Math.random().toString(36).slice(2, 11),
-      name: product.name,
-      price: product.price,
+      name: product!.name,
+      price: product!.price,
       quantity: 1,
-      imageUrl: product.imageUrl,
+      imageUrl: product!.imageUrl,
+      productId: product!.id,
     };
+
     dispatch(addItem(newCartItem));
   };
 
@@ -120,23 +147,9 @@ const ProductDetail: React.FC = () => {
               </div>
 
               <div id="product__data__controls" className="flex flex-col">
-                <span className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                  Quantity
-                </span>
-                <div id="counter" className="mb-4 flex gap-2">
-                  <button className="px-3 py-1 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 transition">
-                    −
-                  </button>
-                  <span className="px-3 py-1 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-md">
-                    1
-                  </span>
-                  <button className="px-3 py-1 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 transition">
-                    +
-                  </button>
-                </div>
                 <button
                   className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg shadow-md transition"
-                  onClick={handleOnClickAddToCart}
+                  onClick={handleOnClckAddToCart}
                 >
                   Add to Cart
                 </button>
@@ -172,32 +185,32 @@ const ProductDetail: React.FC = () => {
                   id="card"
                   className="flex flex-col border border-gray-300 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-800 hover:shadow-xl dark:hover:shadow-[0_0_16px_rgba(255,255,255,0.15)] transition-shadow duration-300"
                 >
-                  <Link to={`/products/${product.id}`}>
-                    <div
-                      id="card__image"
-                      className="w-full h-48 bg-gray-100 dark:bg-gray-700"
-                    >
+                  <div
+                    id="card__image"
+                    className="w-full h-48 bg-gray-100 dark:bg-gray-700"
+                  >
+                    <Link to={`/products/${product.id}`}>
                       <img
                         alt="another test image"
                         className="w-full h-full object-cover"
                         src={product.imageUrl}
                       />
-                    </div>
-                    <div id="card__data" className="flex flex-col gap-2 p-4">
-                      <span className="text-base font-medium text-gray-800 dark:text-gray-100">
-                        {product.name}
-                      </span>
-                      <span className="text-sm text-gray-600 dark:text-gray-300">
-                        ${product.price}
-                      </span>
-                      <button
-                        className="mt-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm py-2 rounded-md transition"
-                        onClick={() => handleOnClickAddToCartId(product.id)}
-                      >
-                        Add to Cart
-                      </button>
-                    </div>
-                  </Link>
+                    </Link>
+                  </div>
+                  <div id="card__data" className="flex flex-col gap-2 p-4">
+                    <span className="text-base font-medium text-gray-800 dark:text-gray-100">
+                      <Link to={`/products/${product.id}`}>{product.name}</Link>
+                    </span>
+                    <span className="text-sm text-gray-600 dark:text-gray-300">
+                      ${product.price}
+                    </span>
+                    <button
+                      className="mt-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm py-2 rounded-md transition"
+                      onClick={() => handleOnClickAddToCartId(product.id)}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
                 </div>
               );
             })}

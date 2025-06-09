@@ -1,22 +1,36 @@
 import { Link } from 'react-router-dom';
 import type { Product } from '../../types/Product';
-import type { AppDispatch } from '../../redux/store';
-import { useDispatch } from 'react-redux';
-import { addItem, type CartItem } from '../cart/cartSlice';
+import type { AppDispatch, RootState } from '../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem, incrementQuantity, type CartItem } from '../cart/cartSlice';
 
 interface ProductCardProps {
   product: Product;
 }
 const ProductCard = ({ product }: ProductCardProps) => {
+  const cartItems = useSelector((state: RootState) => state.cart.items);
   const dispatch = useDispatch<AppDispatch>();
 
   const handleOnClckAddToCart = () => {
+    const itemExists = cartItems.some(
+      caritem => caritem.productId === product.id,
+    );
+
+    if (itemExists) {
+      const cartItem = cartItems.find(
+        cartItem => cartItem.productId === product.id,
+      )!;
+      dispatch(incrementQuantity(cartItem.id));
+      return;
+    }
+
     const newCartItem: CartItem = {
       id: Math.random().toString(36).slice(2, 11),
       name: product.name,
       price: product.price,
       quantity: 1,
       imageUrl: product.imageUrl,
+      productId: product.id,
     };
 
     dispatch(addItem(newCartItem));
