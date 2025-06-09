@@ -41,10 +41,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <p className="text-xs text-gray-600 dark:text-gray-300">
             ${product.price}
           </p>
-          <button className="w-full mt-auto bg-blue-500 text-white text-xs px-3 py-1.5 rounded hover:bg-blue-600 dark:hover:bg-blue-400 transition-colors">
+          <button
+            className="w-full mt-auto bg-blue-500 text-white text-xs px-3 py-1.5 rounded hover:bg-blue-600 dark:hover:bg-blue-400 transition-colors"
             onClick={handleOnClckAddToCart}
-            Add to Cart
-          </button>
+          >
         </div>
       </div>
     </div>
