@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import type { Product } from '../../types/Product';
 import { productsData } from '../../data/products';
+import { useDispatch } from 'react-redux';
+import type { AppDispatch } from '../../redux/store';
+import { addItem, type CartItem } from '../cart/cartSlice';
 
 const ProductDetail: React.FC = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState<Product | undefined | null>(undefined);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     const getProduct = (id: number) => {
@@ -29,6 +33,30 @@ const ProductDetail: React.FC = () => {
       setRelatedProducts(relatedProducs);
     }
   }, [productId]);
+
+  const handleOnClickAddToCart = () => {
+    const newCartItem: CartItem = {
+      id: Math.random().toString(36).slice(2, 11),
+      name: product!.name,
+      price: product!.price,
+      quantity: 1,
+      imageUrl: product!.imageUrl,
+    };
+    dispatch(addItem(newCartItem));
+  };
+
+  const handleOnClickAddToCartId = (id: number) => {
+    const product = relatedProducts.find(p => p.id === id)!;
+
+    const newCartItem: CartItem = {
+      id: Math.random().toString(36).slice(2, 11),
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+      imageUrl: product.imageUrl,
+    };
+    dispatch(addItem(newCartItem));
+  };
 
   if (product === undefined) {
     return <p>Loading the product..................................</p>;
@@ -106,7 +134,10 @@ const ProductDetail: React.FC = () => {
                     +
                   </button>
                 </div>
-                <button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg shadow-md transition">
+                <button
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg shadow-md transition"
+                  onClick={handleOnClickAddToCart}
+                >
                   Add to Cart
                 </button>
               </div>
@@ -159,7 +190,10 @@ const ProductDetail: React.FC = () => {
                       <span className="text-sm text-gray-600 dark:text-gray-300">
                         ${product.price}
                       </span>
-                      <button className="mt-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm py-2 rounded-md transition">
+                      <button
+                        className="mt-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm py-2 rounded-md transition"
+                        onClick={() => handleOnClickAddToCartId(product.id)}
+                      >
                         Add to Cart
                       </button>
                     </div>

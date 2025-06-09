@@ -5,6 +5,7 @@ import adminSlice from '../features/admin/adminSlice';
 import productsSlice from '../features/products/productsSlice';
 import filtersSlice from '../features/products/filtersSlice';
 import orderSlice from '../features/order/orderSlice';
+import { loadCartItems, saveCartItems } from '../utils/storage';
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,17 @@ export const store = configureStore({
     filters: filtersSlice,
     order: orderSlice,
   },
+  preloadedState: {
+    cart: {
+      items: loadCartItems(),
+      totalQuantity: 0,
+      totalPrice: 0,
+    },
+  },
+});
+
+store.subscribe(() => {
+  saveCartItems(store.getState());
 });
 
 export type RootState = ReturnType<typeof store.getState>;

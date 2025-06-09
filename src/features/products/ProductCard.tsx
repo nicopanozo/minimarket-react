@@ -1,11 +1,27 @@
 import { Link } from 'react-router-dom';
 import type { Product } from '../../types/Product';
+import type { AppDispatch } from '../../redux/store';
+import { useDispatch } from 'react-redux';
+import { addItem, type CartItem } from '../cart/cartSlice';
 
 interface ProductCardProps {
   product: Product;
 }
-
 const ProductCard = ({ product }: ProductCardProps) => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleOnClckAddToCart = () => {
+    const newCartItem: CartItem = {
+      id: Math.random().toString(36).slice(2, 11),
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+      imageUrl: product.imageUrl,
+    };
+
+    dispatch(addItem(newCartItem));
+  };
+
   return (
     <div className="flex flex-col h-full border rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 p-3 text-gray-900 dark:text-gray-100 transition-shadow duration-300 hover:shadow-md dark:hover:ring-2 dark:hover:ring-white dark:hover:ring-opacity-20">
       <div id="wrapper" className="flex flex-col h-full">
@@ -26,6 +42,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             ${product.price}
           </p>
           <button className="w-full mt-auto bg-blue-500 text-white text-xs px-3 py-1.5 rounded hover:bg-blue-600 dark:hover:bg-blue-400 transition-colors">
+            onClick={handleOnClckAddToCart}
             Add to Cart
           </button>
         </div>
