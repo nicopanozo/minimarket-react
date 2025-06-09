@@ -23,13 +23,22 @@ export function saveCartItems(state: RootState) {
   }
 }
 
-export function loadOrder(): OrderState | undefined {
-  return storage.get(STORAGE_KEYS.ORDERS, undefined);
+export function saveOrder(order: OrderState) {
+  try {
+    localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(order));
+  } catch (error) {
+    console.error('Error saving order to localStorage:', error);
+  }
 }
 
-export function saveOrder(state: RootState) {
-  const order = state.order;
-  storage.set(STORAGE_KEYS.ORDERS, order);
+export function loadOrder(): OrderState | null {
+  try {
+    const data = localStorage.getItem(STORAGE_KEYS.ORDERS);
+    return data ? JSON.parse(data) : null;
+  } catch (error) {
+    console.error('Error loading order from localStorage:', error);
+    return null;
+  }
 }
 
 export const storage = {

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { setOrder } from '../features/order/orderSlice';
 import type { RootState } from '../redux/store';
 import { useForm, type SubmitHandler } from 'react-hook-form';
+import { saveOrder } from '../utils/storage';
 
 interface CheckoutFormInputs {
   name: string;
@@ -10,7 +11,7 @@ interface CheckoutFormInputs {
   cardNumber: string;
 }
 
-type CardType = 'Visa' | 'Mastercard' | 'Amex' | 'Unknown';
+type CardType = 'Visa' | 'Mastercard' | 'Amex' | 'Baneco';
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const CheckoutPage = () => {
     if (/^4/.test(cleanNumber)) return 'Visa';
     if (/^5[1-5]/.test(cleanNumber)) return 'Mastercard';
     if (/^3[47]/.test(cleanNumber)) return 'Amex';
-    return 'Unknown';
+    return 'Baneco';
   };
 
   const onSubmit: SubmitHandler<CheckoutFormInputs> = data => {
@@ -41,19 +42,21 @@ const CheckoutPage = () => {
     const lastFour = data.cardNumber.slice(-4);
     const cardType = getCardType(data.cardNumber);
 
-    dispatch(
-      setOrder({
-        user: { name: data.name },
-        orderNumber,
-        items: cartItems,
-        total: totalPrice,
-        paymentDetails: {
-          cardType,
-          lastFour,
-          shippingAddress: data.shippingAddress,
-        },
-      }),
-    );
+    const order = {
+      user: { name: data.name },
+      orderNumber,
+      items: cartItems,
+      total: totalPrice,
+      paymentDetails: {
+        cardType,
+        lastFour,
+        shippingAddress: data.shippingAddress,
+      },
+    };
+
+    dispatch(setOrder(order));
+    saveOrder(order);
+
     navigate('/confirmation');
   };
 
