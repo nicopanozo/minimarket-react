@@ -2,7 +2,7 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { CartItem } from '../cart/cartSlice';
 
 export interface OrderState {
-  id: string;
+  id?: string;
   user: { name: string };
   orderNumber: string;
   items: CartItem[];
@@ -12,7 +12,7 @@ export interface OrderState {
     lastFour: string;
     shippingAddress: string;
   };
-  status: 'pendiente' | 'entregado' | 'cancelado';
+  status?: 'pendiente' | 'entregado' | 'cancelado';
   note?: string;
 }
 
