@@ -25,10 +25,8 @@ const themeSlice = createSlice({
       state.isDark = !state.isDark;
       const theme = state.isDark ? 'dark' : 'light';
 
-      // Actualizar localStorage
       storage.set(STORAGE_KEYS.THEME, theme);
 
-      // Actualizar DOM
       const root = document.documentElement;
       if (state.isDark) {
         root.classList.add('dark');
@@ -50,7 +48,6 @@ const themeSlice = createSlice({
       }
     },
     initializeTheme: state => {
-      // Aplicar el tema al DOM al inicializar
       const root = document.documentElement;
       if (state.isDark) {
         root.classList.add('dark');
