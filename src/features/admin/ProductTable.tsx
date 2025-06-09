@@ -12,7 +12,8 @@ const ProductTable = ({ products, onEdit }: Props) => {
   const dispatch = useDispatch();
 
   const handleDelete = (id: number) => {
-    const confirmed = confirm('Are you sure you want to delete this product?');
+
+    const confirmed = confirm('Do you really want to delete this product?');
     if (!confirmed) return;
 
     const updated = products.filter(p => p.id !== id);
@@ -32,7 +33,7 @@ const ProductTable = ({ products, onEdit }: Props) => {
           className="btn-secondary flex items-center gap-2 text-sm"
           onClick={() => onEdit(null)}
         >
-          <span>➕</span> Create
+          <span>➕</span> Add Product
         </button>
       </div>
       <table className="w-full text-sm text-left border-collapse">

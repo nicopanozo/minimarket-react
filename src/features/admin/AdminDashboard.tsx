@@ -38,7 +38,7 @@ const AdminDashboard = () => {
     if (!confirmDelete) return;
 
     dispatch(removeProduct(id));
-    const updated = products.filter(p => p.id !== id);
+    const updated = products.filter((p: Product) => p.id !== id);
     localStorage.setItem('products', JSON.stringify(updated));
     toast.success('Product deleted');
   };
@@ -81,7 +81,7 @@ const AdminDashboard = () => {
                 </tr>
               </thead>
               <tbody className="divide-y dark:divide-gray-600">
-                {products.map(product => (
+                {products.map((product: Product) => (
                   <tr key={product.id}>
                     <td className="py-2 px-4">{product.name}</td>
                     <td className="py-2 px-4">${product.price.toFixed(2)}</td>

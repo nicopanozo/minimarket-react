@@ -63,15 +63,21 @@ const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
 
     if (editingProduct) {
       dispatch(updateProduct(product));
-      updatedProducts = products.map(p => (p.id === product.id ? product : p));
+      const stored = localStorage.getItem('products');
+      const current = stored ? JSON.parse(stored) : [];
+      const updated = current.map((p: Product) =>
+        p.id === product.id ? product : p,
+      );
+      localStorage.setItem('products', JSON.stringify(updated));
       toast.success('Product updated');
     } else {
       dispatch(addProduct(product));
-      updatedProducts = [...products, product];
+      const stored = localStorage.getItem('products');
+      const current = stored ? JSON.parse(stored) : [];
+      const updated = [...current, product];
+      localStorage.setItem('products', JSON.stringify(updated));
       toast.success('Product added');
     }
-
-    localStorage.setItem('products', JSON.stringify(updatedProducts));
     onClose();
   };
 
@@ -102,21 +108,21 @@ const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <input
-                className="input-field"
-                placeholder="e.g. Nike Running Shoes"
+                className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                placeholder="E.g. Nike running shoes"
                 value={name}
                 onChange={e => setName(e.target.value)}
               />
               <input
                 type="text"
                 inputMode="decimal"
-                className="input-field"
-                placeholder="e.g. 120.00"
+                className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                placeholder="Price e.g. 120.00"
                 value={price}
                 onChange={e => setPrice(e.target.value)}
               />
               <select
-                className="input-field"
+                className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                 value={categoryId}
                 onChange={e => setCategoryId(Number(e.target.value))}
               >
@@ -125,15 +131,16 @@ const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
                 <option value={3}>Clothing</option>
               </select>
               <input
-                className="input-field"
-                placeholder="e.g. https://image.com/product.jpg"
+                className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                placeholder="E.g. https://imageurl.com/product.jpg"
                 value={imageUrl}
                 onChange={e => setImageUrl(e.target.value)}
               />
               <textarea
-                className="input-field"
                 rows={3}
-                placeholder="e.g. Comfortable running shoes for all-day use"
+
+                className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                placeholder="E.g. Comfortable and durable running shoes."
                 value={description}
                 onChange={e => setDescription(e.target.value)}
               />
