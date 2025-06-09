@@ -5,6 +5,7 @@ import adminSlice from '../features/admin/adminSlice';
 import productsSlice from '../features/products/productsSlice';
 import filtersSlice from '../features/products/filtersSlice';
 import orderSlice from '../features/order/orderSlice';
+import themeSlice from '../features/theme/themeSlice';
 import { loadCartItems, saveCartItems } from '../utils/storage';
 
 export const store = configureStore({
@@ -15,6 +16,7 @@ export const store = configureStore({
     admin: adminSlice,
     filters: filtersSlice,
     order: orderSlice,
+    theme: themeSlice,
   },
   preloadedState: {
     cart: {

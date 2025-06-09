@@ -1,28 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Moon, Sun } from 'lucide-react';
+import type { RootState } from '../redux/store';
+import { toggleTheme, initializeTheme } from '../features/theme/themeSlice';
 
 const DarkModeToggle = () => {
-  const [isDark, setIsDark] = useState(false);
+  const dispatch = useDispatch();
+  const isDark = useSelector((state: RootState) => state.theme.isDark);
 
   useEffect(() => {
-    const root = document.documentElement;
-    if (isDark) {
-      root.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      root.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [isDark]);
+    dispatch(initializeTheme());
+  }, [dispatch]);
 
-  useEffect(() => {
-    const saved = localStorage.getItem('theme');
-    setIsDark(saved === 'dark');
-  }, []);
+  const handleToggle = () => {
+    dispatch(toggleTheme());
+  };
 
   return (
     <button
-      onClick={() => setIsDark(prev => !prev)}
+      onClick={handleToggle}
       className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition"
       aria-label="Toggle Dark Mode"
     >
