@@ -1,11 +1,11 @@
-// src/features/admin/ProductForm.tsx
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addProduct, updateProduct } from '../products/productsSlice';
 import { toast } from 'sonner';
 import type { Product } from '../../types/Product';
+import type { RootState } from '../../redux/store';
 
 interface Props {
   open: boolean;
@@ -15,6 +15,7 @@ interface Props {
 
 const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
   const dispatch = useDispatch();
+  const products = useSelector((state: RootState) => state.products);
 
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
@@ -41,12 +42,12 @@ const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name.trim()) return toast.error('Nombre requerido');
+    if (!name.trim()) return toast.error('Name is required');
     const priceValue = parseFloat(price);
     if (!priceValue || priceValue <= 0)
-      return toast.error('Precio debe ser mayor a 0');
-    if (!description.trim()) return toast.error('Descripción requerida');
-    if (!imageUrl.trim()) return toast.error('URL de imagen requerida');
+      return toast.error('Price must be greater than 0');
+    if (!description.trim()) return toast.error('Description is required');
+    if (!imageUrl.trim()) return toast.error('Image URL is required');
 
     const product: Product = {
       id: editingProduct ? editingProduct.id : Date.now(),
@@ -58,13 +59,19 @@ const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
       active: true,
     };
 
+    let updatedProducts: Product[] = [];
+
     if (editingProduct) {
       dispatch(updateProduct(product));
-      toast.success('Producto actualizado');
+      updatedProducts = products.map(p => (p.id === product.id ? product : p));
+      toast.success('Product updated');
     } else {
       dispatch(addProduct(product));
-      toast.success('Producto añadido');
+      updatedProducts = [...products, product];
+      toast.success('Product added');
     }
+
+    localStorage.setItem('products', JSON.stringify(updatedProducts));
     onClose();
   };
 
@@ -91,12 +98,12 @@ const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
               <X size={20} />
             </button>
             <h2 className="text-xl font-semibold mb-4">
-              {editingProduct ? 'Editar Producto' : 'Añadir Producto'}
+              {editingProduct ? 'Edit Product' : 'Add Product'}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <input
                 className="input-field"
-                placeholder="Ej. Zapatos deportivos Nike"
+                placeholder="e.g. Nike Running Shoes"
                 value={name}
                 onChange={e => setName(e.target.value)}
               />
@@ -104,7 +111,7 @@ const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
                 type="text"
                 inputMode="decimal"
                 className="input-field"
-                placeholder="Precio en Bs. Ej: 120.00"
+                placeholder="e.g. 120.00"
                 value={price}
                 onChange={e => setPrice(e.target.value)}
               />
@@ -119,20 +126,20 @@ const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
               </select>
               <input
                 className="input-field"
-                placeholder="Ej. https://miimagen.com/producto.jpg"
+                placeholder="e.g. https://image.com/product.jpg"
                 value={imageUrl}
                 onChange={e => setImageUrl(e.target.value)}
               />
               <textarea
                 className="input-field"
                 rows={3}
-                placeholder="Ej. Zapatillas cómodas y resistentes para correr."
+                placeholder="e.g. Comfortable running shoes for all-day use"
                 value={description}
                 onChange={e => setDescription(e.target.value)}
               />
               <div className="flex justify-end">
                 <button type="submit" className="btn-primary">
-                  {editingProduct ? 'Guardar Cambios' : 'Guardar'}
+                  {editingProduct ? 'Save Changes' : 'Save'}
                 </button>
               </div>
             </form>
