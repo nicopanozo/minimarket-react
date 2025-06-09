@@ -1,7 +1,8 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { CartItem } from '../cart/cartSlice';
 
-interface OrderState {
+export interface OrderState {
+  id: string;
   user: { name: string };
   orderNumber: string;
   items: CartItem[];
@@ -11,9 +12,12 @@ interface OrderState {
     lastFour: string;
     shippingAddress: string;
   };
+  status: 'pendiente' | 'entregado' | 'cancelado';
+  note?: string;
 }
 
 const initialState: OrderState = {
+  id: '',
   user: { name: '' },
   orderNumber: '',
   items: [],
@@ -23,6 +27,8 @@ const initialState: OrderState = {
     lastFour: '5422',
     shippingAddress: '32th Street, Doral Miami.',
   },
+  status: 'pendiente',
+  note: '',
 };
 
 const orderSlice = createSlice({
@@ -33,8 +39,15 @@ const orderSlice = createSlice({
       return action.payload;
     },
     clearOrder: () => initialState,
+    updateOrderStatus: (
+      state,
+      action: PayloadAction<{ status: OrderState['status']; note?: string }>,
+    ) => {
+      state.status = action.payload.status;
+      state.note = action.payload.note || '';
+    },
   },
 });
 
-export const { setOrder, clearOrder } = orderSlice.actions;
+export const { setOrder, clearOrder, updateOrderStatus } = orderSlice.actions;
 export default orderSlice.reducer;

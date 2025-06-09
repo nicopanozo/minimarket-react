@@ -1,22 +1,41 @@
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../../redux/store';
 import { useEffect, useState } from 'react';
-import { setProducts } from '../products/productsSlice';
+import { setProducts, removeProduct } from '../products/productsSlice';
 import { productsData as initialProducts } from '../../data/products';
 import OrderTable from './OrderTable';
 import ProductFormModal from './ProductForm';
-import { Plus } from 'lucide-react';
+import { Plus, Pencil, Trash2 } from 'lucide-react';
+import type { Product } from '../../types/Product';
+import { toast } from 'sonner';
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
   const products = useSelector((state: RootState) => state.products);
+
   const [showModal, setShowModal] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     if (products.length === 0) {
       dispatch(setProducts(initialProducts));
     }
   }, [dispatch, products.length]);
+
+  const handleEdit = (product: Product) => {
+    setEditingProduct(product);
+    setShowModal(true);
+  };
+
+  const handleDelete = (id: number) => {
+    dispatch(removeProduct(id));
+    toast.success('Producto eliminado');
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setEditingProduct(null);
+  };
 
   return (
     <div className="container-custom py-8 space-y-10">
@@ -54,8 +73,19 @@ const AdminDashboard = () => {
                     <td className="py-2 px-4">{product.name}</td>
                     <td className="py-2 px-4">${product.price.toFixed(2)}</td>
                     <td className="py-2 px-4">{product.categoryId}</td>
-                    <td className="py-2 px-4">
-                      <span className="text-gray-400">📝 🗑️</span>
+                    <td className="py-2 px-4 space-x-2">
+                      <button
+                        className="text-blue-500 hover:text-blue-700"
+                        onClick={() => handleEdit(product)}
+                      >
+                        <Pencil size={16} />
+                      </button>
+                      <button
+                        className="text-red-500 hover:text-red-700"
+                        onClick={() => handleDelete(product.id)}
+                      >
+                        <Trash2 size={16} />
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -70,7 +100,11 @@ const AdminDashboard = () => {
         </section>
       </div>
 
-      <ProductFormModal open={showModal} onClose={() => setShowModal(false)} />
+      <ProductFormModal
+        open={showModal}
+        onClose={handleCloseModal}
+        editingProduct={editingProduct}
+      />
     </div>
   );
 };
