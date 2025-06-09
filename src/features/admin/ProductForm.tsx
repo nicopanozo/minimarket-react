@@ -1,17 +1,19 @@
-// src/features/admin/ProductFormModal.tsx
+// src/features/admin/ProductForm.tsx
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { addProduct } from '../products/productsSlice';
+import { addProduct, updateProduct } from '../products/productsSlice';
 import { toast } from 'sonner';
+import type { Product } from '../../types/Product';
 
 interface Props {
   open: boolean;
   onClose: () => void;
+  editingProduct?: Product | null;
 }
 
-const ProductFormModal = ({ open, onClose }: Props) => {
+const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
   const dispatch = useDispatch();
 
   const [name, setName] = useState('');
@@ -19,6 +21,22 @@ const ProductFormModal = ({ open, onClose }: Props) => {
   const [categoryId, setCategoryId] = useState(1);
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+
+  useEffect(() => {
+    if (editingProduct) {
+      setName(editingProduct.name);
+      setPrice(String(editingProduct.price));
+      setCategoryId(editingProduct.categoryId);
+      setDescription(editingProduct.description);
+      setImageUrl(editingProduct.imageUrl);
+    } else {
+      setName('');
+      setPrice('');
+      setCategoryId(1);
+      setDescription('');
+      setImageUrl('');
+    }
+  }, [editingProduct]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,19 +48,23 @@ const ProductFormModal = ({ open, onClose }: Props) => {
     if (!description.trim()) return toast.error('Descripción requerida');
     if (!imageUrl.trim()) return toast.error('URL de imagen requerida');
 
-    dispatch(
-      addProduct({
-        id: Date.now(),
-        name,
-        price: priceValue,
-        categoryId,
-        description,
-        imageUrl,
-        active: true,
-      }),
-    );
+    const product: Product = {
+      id: editingProduct ? editingProduct.id : Date.now(),
+      name,
+      price: priceValue,
+      categoryId,
+      description,
+      imageUrl,
+      active: true,
+    };
 
-    toast.success('Producto añadido correctamente');
+    if (editingProduct) {
+      dispatch(updateProduct(product));
+      toast.success('Producto actualizado');
+    } else {
+      dispatch(addProduct(product));
+      toast.success('Producto añadido');
+    }
     onClose();
   };
 
@@ -68,7 +90,9 @@ const ProductFormModal = ({ open, onClose }: Props) => {
             >
               <X size={20} />
             </button>
-            <h2 className="text-xl font-semibold mb-4">Añadir Producto</h2>
+            <h2 className="text-xl font-semibold mb-4">
+              {editingProduct ? 'Editar Producto' : 'Añadir Producto'}
+            </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <input
                 className="input-field"
@@ -108,7 +132,7 @@ const ProductFormModal = ({ open, onClose }: Props) => {
               />
               <div className="flex justify-end">
                 <button type="submit" className="btn-primary">
-                  Guardar
+                  {editingProduct ? 'Guardar Cambios' : 'Guardar'}
                 </button>
               </div>
             </form>
