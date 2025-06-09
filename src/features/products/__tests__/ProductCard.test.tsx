@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -35,7 +35,18 @@ describe('ProductCard', () => {
   it('should render the product name, price and image', () => {
     renderWithProviders(<ProductCard product={mockProduct} />);
 
-    const productCard = screen.getByText(mockProduct.name);
-    expect(productCard).toBeInTheDocument();
+    expect(screen.getByText(mockProduct.name)).toBeInTheDocument();
+    expect(screen.getByText(`$${mockProduct.price}`)).toBeInTheDocument();
+
+    const image = screen.getByRole('img');
+    expect(image).toHaveAttribute('src', mockProduct.imageUrl);
+    expect(image).toHaveAttribute('alt', mockProduct.name);
+  });
+
+  it("should render an 'add to cart' button", () => {
+    renderWithProviders(<ProductCard product={mockProduct} />);
+    expect(
+      screen.getByRole('button', { name: /add to cart/i }),
+    ).toBeInTheDocument();
   });
 });
