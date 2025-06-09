@@ -10,12 +10,19 @@ const CartPage = () => {
     (state: RootState) => state.cart.totalQuantity,
   );
   const totalPrice = useSelector((state: RootState) => state.cart.totalPrice);
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.user.isAuthenticated,
+  );
 
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
   const toCheckout = () => {
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
     navigate('/checkout');
   };
 
@@ -76,25 +83,18 @@ const CartPage = () => {
                         {/* Label for mobile */}
                         <h4>${product.price.toFixed(2)}</h4>
                       </div>
-                      <div className="text-right md:text-right pr-0 md:pr-4 text-secondary-600 dark:text-secondary-400 font-medium">
-                        <span className="md:hidden text-secondary-600 dark:text-secondary-400 mr-2">
+                      <div className="text-right md:text-right pr-0 md:pr-5 text-primary-600 dark:text-secondary-400 font-medium">
+                        {/* Label badge for mobile only */}
+                        <span className="md:hidden bg-secondary-100 dark:bg-secondary-700 text-secondary-600 dark:text-secondary-200 px-2 py-0.5 rounded-full text-sm font-medium mr-2">
                           Cantidad:
                         </span>
-                        {/* Label for mobile */}
-                        <p>{product.quantity} unidades</p>
+                        <p className="inline-block bg-primary-600 text-white px-2 py-0.5 rounded-full text-xs font-semibold shadow-sm">
+                          {product.quantity}
+                        </p>
                       </div>
                     </div>
                   </div>
                 ))}
-
-                <div className="flex justify-end p-4 border-t-2 border-secondary-300 dark:border-secondary-600 mt-4">
-                  <p className="text-lg font-semibold text-secondary-800 dark:text-secondary-100">
-                    Subtotal:
-                    <span className="text-primary-600 dark:text-primary-400">
-                      ${totalPrice}
-                    </span>
-                  </p>
-                </div>
               </>
             )}
           </article>
@@ -115,13 +115,13 @@ const CartPage = () => {
               <li className="flex justify-between items-center">
                 <span>Subtotal:</span>
                 <span className="font-medium text-secondary-800 dark:text-secondary-100">
-                  ${totalPrice}
+                  ${totalPrice.toFixed(2)}
                 </span>
               </li>
               <li className="flex justify-between items-center pt-3 border-t border-secondary-200 dark:border-secondary-700 font-semibold text-lg text-secondary-800 dark:text-secondary-100">
                 <span>Total:</span>
                 <span className="text-primary-600 dark:text-primary-400">
-                  ${totalPrice}
+                  ${totalPrice.toFixed(2)}
                 </span>
               </li>
             </ul>

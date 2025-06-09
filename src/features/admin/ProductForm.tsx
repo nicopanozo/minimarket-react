@@ -1,10 +1,11 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addProduct, updateProduct } from '../products/productsSlice';
 import { toast } from 'sonner';
 import type { Product } from '../../types/Product';
+import type { RootState } from '../../redux/store';
 
 interface Props {
   open: boolean;
@@ -14,6 +15,7 @@ interface Props {
 
 const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
   const dispatch = useDispatch();
+  const products = useSelector((state: RootState) => state.products);
 
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
@@ -57,6 +59,8 @@ const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
       active: true,
     };
 
+    let updatedProducts: Product[] = [];
+
     if (editingProduct) {
       dispatch(updateProduct(product));
       const stored = localStorage.getItem('products');
@@ -74,7 +78,6 @@ const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
       localStorage.setItem('products', JSON.stringify(updated));
       toast.success('Product added');
     }
-
     onClose();
   };
 
@@ -135,6 +138,7 @@ const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
               />
               <textarea
                 rows={3}
+
                 className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                 placeholder="E.g. Comfortable and durable running shoes."
                 value={description}

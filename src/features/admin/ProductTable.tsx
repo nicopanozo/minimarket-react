@@ -12,6 +12,7 @@ const ProductTable = ({ products, onEdit }: Props) => {
   const dispatch = useDispatch();
 
   const handleDelete = (id: number) => {
+
     const confirmed = confirm('Do you really want to delete this product?');
     if (!confirmed) return;
 

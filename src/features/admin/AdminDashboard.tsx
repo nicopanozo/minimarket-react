@@ -32,6 +32,11 @@ const AdminDashboard = () => {
   };
 
   const handleDelete = (id: number) => {
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete this product?',
+    );
+    if (!confirmDelete) return;
+
     dispatch(removeProduct(id));
     const updated = products.filter((p: Product) => p.id !== id);
     localStorage.setItem('products', JSON.stringify(updated));
@@ -48,6 +53,7 @@ const AdminDashboard = () => {
       <h2 className="text-2xl font-bold heading-dark">Admin Dashboard</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Product Management */}
         <section>
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl font-semibold heading-dark">
@@ -108,6 +114,7 @@ const AdminDashboard = () => {
           </div>
         </section>
 
+        {/* Orders Section */}
         <section>
           <h2 className="text-xl font-semibold heading-dark mb-4">Orders</h2>
           <OrderTable />

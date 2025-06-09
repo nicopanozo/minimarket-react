@@ -8,11 +8,12 @@
 
     <!-- 🌓 Activar dark mode antes del render para evitar parpadeo -->
     <script>
-      if (
-        localStorage.theme === 'dark' ||
-        (!('theme' in localStorage) &&
-          window.matchMedia('(prefers-color-scheme: dark)').matches)
-      ) {
+      const savedTheme = localStorage.getItem('minimarket_theme');
+      const prefersDark = window.matchMedia(
+        '(prefers-color-scheme: dark)',
+      ).matches;
+
+      if (savedTheme === '"dark"' || (!savedTheme && prefersDark)) {
         document.documentElement.classList.add('dark');
       }
     </script>
