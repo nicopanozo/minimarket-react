@@ -7,6 +7,8 @@ import filtersSlice from '../features/products/filtersSlice';
 import orderSlice from '../features/order/orderSlice';
 import themeSlice from '../features/theme/themeSlice';
 import { loadCartItems, saveCartItems } from '../utils/storage';
+import orderSlice, { setOrder } from '../features/order/orderSlice';
+import { loadCartItems, loadOrder, saveCartItems } from '../utils/storage';
 
 export const store = configureStore({
   reducer: {
@@ -30,6 +32,11 @@ export const store = configureStore({
 store.subscribe(() => {
   saveCartItems(store.getState());
 });
+
+const savedOrder = loadOrder();
+if (savedOrder) {
+  store.dispatch(setOrder(savedOrder));
+}
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
