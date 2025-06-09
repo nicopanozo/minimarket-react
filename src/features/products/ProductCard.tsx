@@ -45,8 +45,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
             className="w-full mt-auto bg-blue-500 text-white text-xs px-3 py-1.5 rounded hover:bg-blue-600 dark:hover:bg-blue-400 transition-colors"
             onClick={handleOnClckAddToCart}
           >
-            Add to Cart
-          </button>
         </div>
       </div>
     </div>
