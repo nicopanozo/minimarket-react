@@ -1,25 +1,90 @@
 import type { OrderState } from '../features/order/orderSlice';
 import type { RootState } from '../redux/store';
+import type { CartItem } from '../features/cart/cartSlice';
 
 const STORAGE_CAR_ITEMS_KEY = 'cartItems';
 
-export function loadCartItems() {
+const getUserCartKey = (userEmail: string) =>
+  `${STORAGE_KEYS.CART}_${userEmail}`;
+
+export function loadCartItems(userEmail?: string) {
   try {
+    if (userEmail) {
+      const userCartKey = getUserCartKey(userEmail);
+      const userCartItems = JSON.parse(
+        localStorage.getItem(userCartKey) || '[]',
+      );
+      return userCartItems;
+    }
     const cartItems = JSON.parse(
       localStorage.getItem(STORAGE_CAR_ITEMS_KEY) || '[]',
     );
     return cartItems;
   } catch {
-    return undefined;
+    return [];
   }
 }
 
-export function saveCartItems(state: RootState) {
+export function saveCartItems(state: RootState, userEmail?: string) {
   try {
     const cartItems = JSON.stringify(state.cart.items);
-    localStorage.setItem(STORAGE_CAR_ITEMS_KEY, cartItems);
+    if (userEmail) {
+      const userCartKey = getUserCartKey(userEmail);
+      localStorage.setItem(userCartKey, cartItems);
+    } else {
+      localStorage.setItem(STORAGE_CAR_ITEMS_KEY, cartItems);
+    }
   } catch {
     // ignore
+  }
+}
+
+export function migrateAnonymousCartToUser(userEmail: string) {
+  try {
+    const anonymousCart = JSON.parse(
+      localStorage.getItem(STORAGE_CAR_ITEMS_KEY) || '[]',
+    );
+
+    const userCartKey = getUserCartKey(userEmail);
+    const userCart = JSON.parse(localStorage.getItem(userCartKey) || '[]');
+
+    if (anonymousCart.length > 0) {
+      const combinedCart = [...userCart];
+
+      anonymousCart.forEach((anonymousItem: CartItem) => {
+        const existingItem = combinedCart.find(
+          item =>
+            item.name === anonymousItem.name &&
+            item.price === anonymousItem.price,
+        );
+
+        if (existingItem) {
+          existingItem.quantity += anonymousItem.quantity;
+        } else {
+          combinedCart.push(anonymousItem);
+        }
+      });
+
+      localStorage.setItem(userCartKey, JSON.stringify(combinedCart));
+
+      localStorage.removeItem(STORAGE_CAR_ITEMS_KEY);
+
+      return combinedCart;
+    }
+
+    return userCart;
+  } catch (error) {
+    console.error('Error migrating anonymous cart:', error);
+    return [];
+  }
+}
+
+export function clearUserCart(userEmail: string) {
+  try {
+    const userCartKey = getUserCartKey(userEmail);
+    localStorage.removeItem(userCartKey);
+  } catch (error) {
+    console.error('Error clearing user cart:', error);
   }
 }
 
@@ -84,6 +149,7 @@ export const STORAGE_KEYS = {
   CART: 'minimarket_cart',
   PRODUCTS: 'minimarket_products',
   ORDERS: 'minimarket_orders',
+  THEME: 'minimarket_theme',
 };
 
 export interface User {

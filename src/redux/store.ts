@@ -28,7 +28,9 @@ export const store = configureStore({
 });
 
 store.subscribe(() => {
-  saveCartItems(store.getState());
+  const state = store.getState();
+  const userEmail = state.user.user?.email;
+  saveCartItems(state, userEmail);
 });
 
 const savedOrder = loadOrder();
