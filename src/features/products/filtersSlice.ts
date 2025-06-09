@@ -1,8 +1,8 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { Category } from '../../data/categories';
 import categoriesData from '../../data/categories';
 import type { PriceRange } from '../../types/PriceRange';
 import { priceRangeData } from '../../data/priceRanges';
+import type { Category } from '../../types/Category';
 
 type FiltersState = {
   selectedCategories: Category[];
