@@ -4,9 +4,7 @@ import userSlice from '../features/user/userSlice';
 import adminSlice from '../features/admin/adminSlice';
 import productsSlice from '../features/products/productsSlice';
 import filtersSlice from '../features/products/filtersSlice';
-import orderSlice from '../features/order/orderSlice';
 import themeSlice from '../features/theme/themeSlice';
-import { loadCartItems, saveCartItems } from '../utils/storage';
 import orderSlice, { setOrder } from '../features/order/orderSlice';
 import { loadCartItems, loadOrder, saveCartItems } from '../utils/storage';
 
