@@ -1,3 +1,4 @@
+import type { OrderState } from '../features/order/orderSlice';
 import type { RootState } from '../redux/store';
 
 const STORAGE_CAR_ITEMS_KEY = 'cartItems';
@@ -20,6 +21,15 @@ export function saveCartItems(state: RootState) {
   } catch {
     // ignore
   }
+}
+
+export function loadOrder(): OrderState | undefined {
+  return storage.get(STORAGE_KEYS.ORDERS, undefined);
+}
+
+export function saveOrder(state: RootState) {
+  const order = state.order;
+  storage.set(STORAGE_KEYS.ORDERS, order);
 }
 
 export const storage = {
