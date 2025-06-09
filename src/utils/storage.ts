@@ -1,3 +1,4 @@
+import type { OrderState } from '../features/order/orderSlice';
 import type { RootState } from '../redux/store';
 
 const STORAGE_CAR_ITEMS_KEY = 'cartItems';
@@ -19,6 +20,24 @@ export function saveCartItems(state: RootState) {
     localStorage.setItem(STORAGE_CAR_ITEMS_KEY, cartItems);
   } catch {
     // ignore
+  }
+}
+
+export function saveOrder(order: OrderState) {
+  try {
+    localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(order));
+  } catch (error) {
+    console.error('Error saving order to localStorage:', error);
+  }
+}
+
+export function loadOrder(): OrderState | null {
+  try {
+    const data = localStorage.getItem(STORAGE_KEYS.ORDERS);
+    return data ? JSON.parse(data) : null;
+  } catch (error) {
+    console.error('Error loading order from localStorage:', error);
+    return null;
   }
 }
 
