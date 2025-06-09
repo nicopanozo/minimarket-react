@@ -23,9 +23,9 @@ const initialState: OrderState = {
   items: [],
   total: 0,
   paymentDetails: {
-    cardType: 'Visa',
-    lastFour: '5422',
-    shippingAddress: '32th Street, Doral Miami.',
+    cardType: '',
+    lastFour: '',
+    shippingAddress: '',
   },
   status: 'pendiente',
   note: '',
