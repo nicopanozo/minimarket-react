@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import type { RootState } from '../../redux/store';
 import { loginStart, loginSuccess, loginFailure } from './userSlice';
+import { loadCartItems } from '../cart/cartSlice';
+import { migrateAnonymousCartToUser } from '../../utils/storage';
 import type { User } from '../../utils/storage';
 
 interface LoginFormData {
@@ -44,7 +46,9 @@ const LoginPage: React.FC = () => {
     try {
       dispatch(loginStart());
       const userData = await simulateLogin(data.email);
-      dispatch(loginSuccess(userData));
+      const userCartItems = migrateAnonymousCartToUser(userData.email);
+      dispatch(loadCartItems(userCartItems));
+      dispatch(loginSuccess({ user: userData }));
 
       if (userData.isAdmin) {
         navigate('/admin');
