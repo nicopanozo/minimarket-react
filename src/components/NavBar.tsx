@@ -10,6 +10,7 @@ const Navbar: React.FC = () => {
     (state: RootState) => state.user,
   );
   const dispatch = useDispatch();
+  const catItems = useSelector((state: RootState) => state.cart.items);
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -45,7 +46,7 @@ const Navbar: React.FC = () => {
             >
               Carrito
               <span className="absolute -top-2 -right-2 bg-danger-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                0
+                {catItems.length}
               </span>
             </Link>
             {isAuthenticated && user ? (
