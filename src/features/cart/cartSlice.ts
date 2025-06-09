@@ -21,6 +21,15 @@ export const initialState: CartState = {
   totalPrice: 0,
 };
 
+const updateCartTotals = (state: CartState) => {
+  state.totalQuantity = 0;
+  state.totalPrice = 0;
+  for (const item of state.items) {
+    state.totalQuantity += item.quantity;
+    state.totalPrice += item.price * item.quantity;
+  }
+};
+
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
@@ -36,27 +45,41 @@ const cartSlice = createSlice({
         state.items.push(action.payload);
       }
 
-      state.totalQuantity = 0;
-      state.totalPrice = 0;
-
-      for (const item of state.items) {
-        state.totalQuantity += item.quantity;
-        state.totalPrice += item.price * item.quantity;
-      }
+      updateCartTotals(state);
     },
     removeItem: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter(item => item.id !== action.payload);
 
-      state.totalQuantity = 0;
-      state.totalPrice = 0;
-      for (const item of state.items) {
-        state.totalQuantity += item.quantity;
-        state.totalPrice += item.price * item.quantity;
+      updateCartTotals(state);
+    },
+    incrementQuantity: (state, action: PayloadAction<string>) => {
+      const item = state.items.find(item => item.id === action.payload);
+      if (item) {
+        item.quantity += 1;
+
+        updateCartTotals(state);
+      }
+    },
+    decrementQuantity: (state, action: PayloadAction<string>) => {
+      const itemIndex = state.items.findIndex(
+        item => item.id === action.payload,
+      );
+
+      if (itemIndex !== -1) {
+        const item = state.items[itemIndex];
+
+        if (item.quantity > 1) {
+          item.quantity -= 1;
+        } else {
+          state.items.splice(itemIndex, 1);
+        }
+        updateCartTotals(state);
       }
     },
   },
 });
 
-export const { addItem, removeItem } = cartSlice.actions;
+export const { addItem, removeItem, incrementQuantity, decrementQuantity } =
+  cartSlice.actions;
 export const cartReducer = cartSlice.reducer;
 export default cartSlice.reducer;
