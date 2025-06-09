@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 const ProductFormModal = lazy(() => import('./ProductForm'));
 const ProductTable = lazy(() => import('./ProductTable'));
 import OrderTable from './OrderTable';
+import type { Product } from '../../types/Product';
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
