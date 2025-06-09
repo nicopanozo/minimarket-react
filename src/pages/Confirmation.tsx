@@ -4,7 +4,7 @@ import { MapPin, CreditCard } from 'lucide-react';
 
 const Confirmation = () => {
   const order = useSelector((state: RootState) => state.order);
-  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const orderItems = useSelector((state: RootState) => state.order.items);
   const totalQuantity = useSelector(
     (state: RootState) => state.cart.totalQuantity,
   );
@@ -66,7 +66,7 @@ const Confirmation = () => {
             Resumen de Compra
           </h3>
           <ul className="space-y-3 text-gray-700">
-            {cartItems.map(item => (
+            {orderItems.map(item => (
               <li key={item.id} className="flex justify-between">
                 <span>
                   {item.name} (x{item.quantity})
@@ -80,7 +80,9 @@ const Confirmation = () => {
             </li>
             <li className="flex justify-between items-center font-semibold text-lg">
               <span>Total:</span>
-              <span className="text-primary-600">${totalPrice.toFixed(2)}</span>
+              <span className="text-primary-600">
+                ${order.total.toFixed(2)}
+              </span>
             </li>
           </ul>
         </aside>

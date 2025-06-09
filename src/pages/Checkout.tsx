@@ -4,6 +4,7 @@ import { setOrder } from '../features/order/orderSlice';
 import type { RootState } from '../redux/store';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { saveOrder } from '../utils/storage';
+import { clearCart } from '../features/cart/cartSlice';
 
 interface CheckoutFormInputs {
   name: string;
@@ -56,8 +57,8 @@ const CheckoutPage = () => {
 
     dispatch(setOrder(order));
     saveOrder(order);
-
     navigate('/confirmation');
+    dispatch(clearCart());
   };
 
   return (
