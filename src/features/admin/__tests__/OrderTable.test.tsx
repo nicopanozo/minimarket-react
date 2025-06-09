@@ -39,6 +39,6 @@ describe('OrderTable', () => {
     expect(screen.getByText('$42.50')).toBeInTheDocument();
     expect(
       screen.getByText('01/06/2025', { exact: false }),
-    ).toBeInTheDocument(); // Dependiendo del formato de `toLocaleString`
+    ).toBeInTheDocument();
   });
 });
