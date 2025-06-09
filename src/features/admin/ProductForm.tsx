@@ -1,3 +1,4 @@
+// src/features/admin/ProductForm.tsx
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useState, useEffect } from 'react';
@@ -103,21 +104,21 @@ const ProductFormModal = ({ open, onClose, editingProductId }: Props) => {
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <input
-                className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                placeholder="E.g. Nike running shoes"
+                className="input-field"
+                placeholder="e.g. Nike Running Shoes"
                 value={name}
                 onChange={e => setName(e.target.value)}
               />
               <input
                 type="text"
                 inputMode="decimal"
-                className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                placeholder="Price e.g. 120.00"
+                className="input-field"
+                placeholder="e.g. 120.00"
                 value={price}
                 onChange={e => setPrice(e.target.value)}
               />
               <select
-                className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="input-field"
                 value={categoryId}
                 onChange={e => setCategoryId(+e.target.value)}
               >
@@ -126,16 +127,15 @@ const ProductFormModal = ({ open, onClose, editingProductId }: Props) => {
                 <option value={3}>Clothing</option>
               </select>
               <input
-                className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                placeholder="E.g. https://imageurl.com/product.jpg"
+                className="input-field"
+                placeholder="e.g. https://image.com/product.jpg"
                 value={imageUrl}
                 onChange={e => setImageUrl(e.target.value)}
               />
               <textarea
+                className="input-field"
                 rows={3}
-
-                className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                placeholder="E.g. Comfortable and durable running shoes."
+                placeholder="e.g. Comfortable running shoes for all-day use"
                 value={description}
                 onChange={e => setDescription(e.target.value)}
               />

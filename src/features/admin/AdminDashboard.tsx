@@ -8,7 +8,6 @@ import { toast } from 'sonner';
 const ProductFormModal = lazy(() => import('./ProductForm'));
 const ProductTable = lazy(() => import('./ProductTable'));
 import OrderTable from './OrderTable';
-import type { Product } from '../../types/Product';
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
@@ -35,7 +34,7 @@ const AdminDashboard = () => {
     if (!window.confirm('Are you sure you want to delete this product?'))
       return;
     dispatch(removeProduct(id));
-    const updated = products.filter((p: Product) => p.id !== id);
+    const updated = products.filter(p => p.id !== id);
     localStorage.setItem('products', JSON.stringify(updated));
     toast.success('Product deleted');
   };
