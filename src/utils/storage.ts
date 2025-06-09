@@ -1,3 +1,27 @@
+import type { RootState } from '../redux/store';
+
+const STORAGE_CAR_ITEMS_KEY = 'cartItems';
+
+export function loadCartItems() {
+  try {
+    const cartItems = JSON.parse(
+      localStorage.getItem(STORAGE_CAR_ITEMS_KEY) || '[]',
+    );
+    return cartItems;
+  } catch {
+    return undefined;
+  }
+}
+
+export function saveCartItems(state: RootState) {
+  try {
+    const cartItems = JSON.stringify(state.cart.items);
+    localStorage.setItem(STORAGE_CAR_ITEMS_KEY, cartItems);
+  } catch {
+    // ignore
+  }
+}
+
 export const storage = {
   set: (key: string, value: unknown) => {
     try {
