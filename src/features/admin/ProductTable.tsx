@@ -1,41 +1,17 @@
 import { Pencil, Trash2 } from 'lucide-react';
 import type { Product } from '../../types/Product';
-import { useDispatch } from 'react-redux';
-import { removeProduct } from '../products/productsSlice';
+import { memo } from 'react';
+import type { FC } from 'react';
 
 interface Props {
   products: Product[];
-  onEdit: (product: Product | null) => void;
+  onEdit: (id: number) => void;
+  onDelete: (id: number) => void;
 }
 
-const ProductTable = ({ products, onEdit }: Props) => {
-  const dispatch = useDispatch();
-
-  const handleDelete = (id: number) => {
-
-    const confirmed = confirm('Do you really want to delete this product?');
-    if (!confirmed) return;
-
-    const updated = products.filter(p => p.id !== id);
-    dispatch(removeProduct(id));
-    localStorage.setItem('products', JSON.stringify(updated));
-  };
-
-  const handleEdit = (product: Product) => {
-    onEdit(product);
-  };
-
+const ProductTable: FC<Props> = ({ products, onEdit, onDelete }) => {
   return (
     <div className="card overflow-x-auto">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold">Product Management</h3>
-        <button
-          className="btn-secondary flex items-center gap-2 text-sm"
-          onClick={() => onEdit(null)}
-        >
-          <span>➕</span> Add Product
-        </button>
-      </div>
       <table className="w-full text-sm text-left border-collapse">
         <thead className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-white">
           <tr>
@@ -49,28 +25,35 @@ const ProductTable = ({ products, onEdit }: Props) => {
           {products.map(product => (
             <tr key={product.id}>
               <td className="py-2 px-4">{product.name}</td>
-              <td className="py-2 px-4">${product.price}</td>
+              <td className="py-2 px-4">${product.price.toFixed(2)}</td>
               <td className="py-2 px-4">{product.categoryId}</td>
               <td className="py-2 px-4 flex gap-2">
                 <button
                   className="text-blue-500 hover:text-blue-700"
-                  onClick={() => handleEdit(product)}
+                  onClick={() => onEdit(product.id)}
                 >
                   <Pencil size={16} />
                 </button>
                 <button
                   className="text-red-500 hover:text-red-700"
-                  onClick={() => handleDelete(product.id)}
+                  onClick={() => onDelete(product.id)}
                 >
                   <Trash2 size={16} />
                 </button>
               </td>
             </tr>
           ))}
+          {products.length === 0 && (
+            <tr>
+              <td colSpan={4} className="py-4 text-center text-gray-500">
+                No products available.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
   );
 };
 
-export default ProductTable;
+export default memo(ProductTable);

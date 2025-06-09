@@ -10,12 +10,13 @@ import type { RootState } from '../../redux/store';
 interface Props {
   open: boolean;
   onClose: () => void;
-  editingProduct?: Product | null;
+  editingProductId?: number | null;
 }
 
-const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
+const ProductFormModal = ({ open, onClose, editingProductId }: Props) => {
   const dispatch = useDispatch();
   const products = useSelector((state: RootState) => state.products);
+  const editingProduct = products.find(p => p.id === editingProductId!);
 
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
@@ -26,7 +27,7 @@ const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
   useEffect(() => {
     if (editingProduct) {
       setName(editingProduct.name);
-      setPrice(String(editingProduct.price));
+      setPrice(editingProduct.price.toString());
       setCategoryId(editingProduct.categoryId);
       setDescription(editingProduct.description);
       setImageUrl(editingProduct.imageUrl);
@@ -43,41 +44,36 @@ const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
     e.preventDefault();
 
     if (!name.trim()) return toast.error('Name is required');
-    const priceValue = parseFloat(price);
-    if (!priceValue || priceValue <= 0)
+    const priceVal = parseFloat(price);
+    if (isNaN(priceVal) || priceVal <= 0)
       return toast.error('Price must be greater than 0');
     if (!description.trim()) return toast.error('Description is required');
     if (!imageUrl.trim()) return toast.error('Image URL is required');
 
-    const product: Product = {
+    const newProduct: Product = {
       id: editingProduct ? editingProduct.id : Date.now(),
       name,
-      price: priceValue,
+      price: priceVal,
       categoryId,
       description,
       imageUrl,
       active: true,
     };
 
-    let updatedProducts: Product[] = [];
-
+    let updatedList: Product[];
     if (editingProduct) {
-      dispatch(updateProduct(product));
-      const stored = localStorage.getItem('products');
-      const current = stored ? JSON.parse(stored) : [];
-      const updated = current.map((p: Product) =>
-        p.id === product.id ? product : p,
+      dispatch(updateProduct(newProduct));
+      updatedList = products.map(p =>
+        p.id === newProduct.id ? newProduct : p,
       );
-      localStorage.setItem('products', JSON.stringify(updated));
       toast.success('Product updated');
     } else {
-      dispatch(addProduct(product));
-      const stored = localStorage.getItem('products');
-      const current = stored ? JSON.parse(stored) : [];
-      const updated = [...current, product];
-      localStorage.setItem('products', JSON.stringify(updated));
+      dispatch(addProduct(newProduct));
+      updatedList = [...products, newProduct];
       toast.success('Product added');
     }
+
+    localStorage.setItem('products', JSON.stringify(updatedList));
     onClose();
   };
 
@@ -95,7 +91,6 @@ const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
             initial={{ scale: 0.9, y: -20, opacity: 0 }}
             animate={{ scale: 1, y: 0, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
           >
             <button
               className="absolute top-3 right-3 text-gray-500 hover:text-red-500"
@@ -124,7 +119,7 @@ const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
               <select
                 className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                 value={categoryId}
-                onChange={e => setCategoryId(Number(e.target.value))}
+                onChange={e => setCategoryId(+e.target.value)}
               >
                 <option value={1}>Tech</option>
                 <option value={2}>Books</option>
