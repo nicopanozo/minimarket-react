@@ -20,6 +20,16 @@ const ProductFilter = () => {
   );
   const dispatch = useDispatch();
   const [searchInput, setSearchInput] = useState<string>('');
+  const [showMobileFilters, setShowMobileFilters] = useState<boolean>(false);
+
+  const handleOnClickClearAll = () => {
+    selectedCategories.forEach(category => {
+      dispatch(toggleCategory(category.id));
+    });
+    selectedPriceRanges.forEach(priceRange => {
+      dispatch(togglePriceRange(priceRange.id));
+    });
+  };
 
   const handleCategoryChange = (category: Category) => {
     dispatch(toggleCategory(category.id));
@@ -29,9 +39,13 @@ const ProductFilter = () => {
     dispatch(togglePriceRange(priceRange.id));
   };
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
     dispatch(setSearchText(e.target.value));
+  };
+
+  const handleToggleMobileFilters = () => {
+    setShowMobileFilters(prev => !prev);
   };
 
   return (
@@ -39,12 +53,23 @@ const ProductFilter = () => {
       id="filter"
       className="h-max flex flex-col gap-4 p-4 rounded-2xl border border-neutral-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 w-full md:w-1/5"
     >
-      <div id="filterButtonMobile" className="flex justify-end md:hidden">
-        <button> show filters</button>
+      <div
+        id="filterButtonMobile"
+        className="flex justify-end md:hidden md:h-full"
+      >
+        <button
+          onClick={handleToggleMobileFilters}
+          className="flex items-center gap-1 text-sm text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900 px-3 py-1 rounded-full transition-colors"
+        >
+          {!showMobileFilters ? 'Show Filters' : 'Hide Filters'}
+        </button>
       </div>
+
       <div
         id="filterDesktopContainer"
-        className="flex flex-col xs:hidden md:flex"
+        className={`flex flex-col ${
+          showMobileFilters ? 'flex' : 'hidden'
+        } md:flex`}
       >
         <div id="filter__search" className="mb-4">
           <input
@@ -52,35 +77,57 @@ const ProductFilter = () => {
             type="text"
             placeholder="Search"
             value={searchInput}
-            onChange={e => handleOnChange(e)}
+            onChange={e => handleOnChangeSearch(e)}
           />
         </div>
         <div id="filter__controls" className="mb-6 flex flex-col">
-          <div id="filter__showControls" className="mb-2 flex justify-between">
+          <div
+            id="filter__showControls"
+            className="mb-2 flex justify-between items-center"
+          >
             <span className="text-sm font-medium text-neutral-700 dark:text-neutral-200 uppercase tracking-wide">
               Filters
             </span>
-            <button className="text-sm text-blue-600 hover:bg-blue-50 px-3 py-1 rounded-full transition-colors">
+            <button
+              className="text-sm text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900 px-3 py-1 rounded-full transition-colors"
+              onClick={handleOnClickClearAll}
+            >
               Clear All
             </button>
           </div>
           <div id="filter__activeGroups" className="flex flex-wrap gap-3">
-            <button className="flex flex-row items-center px-3 py-1 gap-2 font-medium rounded-xl bg-blue-600 text-white text-[11px] hover:bg-blue-700 transition-colors">
-              <span>books</span>
-              <span>&times;</span>
-            </button>
-            <button className="flex flex-row items-center px-3 py-1 gap-2 font-medium rounded-xl bg-blue-600 text-white text-[11px] hover:bg-blue-700 transition-colors">
-              <span>$50 - 100</span>
-              <span>&times;</span>
-            </button>
-            <button className="flex flex-row items-center px-3 py-1 gap-2 font-medium rounded-xl bg-blue-600 text-white text-[11px] hover:bg-blue-700 transition-colors">
-              <span>$50 - 100</span>
-              <span>&times;</span>
-            </button>
-            <button className="flex flex-row items-center px-3 py-1 gap-2 font-medium rounded-xl bg-blue-600 text-white text-[11px] hover:bg-blue-700 transition-colors">
-              <span>$50 - 100</span>
-              <span>&times;</span>
-            </button>
+            {selectedCategories.map(category => {
+              return (
+                <div
+                  key={category.id}
+                  className="flex flex-row items-center px-3 py-1 gap-2 font-medium rounded-xl bg-blue-600 text-white text-[11px] hover:bg-blue-700 transition-colors"
+                >
+                  <span>{category.name}</span>
+                  <button
+                    className="text-sm"
+                    onClick={() => handleCategoryChange(category)}
+                  >
+                    &times;
+                  </button>
+                </div>
+              );
+            })}
+            {selectedPriceRanges.map(priceRange => {
+              return (
+                <div
+                  key={priceRange.id}
+                  className="flex flex-row items-center px-3 py-1 gap-2 font-medium rounded-xl bg-blue-600 text-white text-[11px] hover:bg-blue-700 transition-colors"
+                >
+                  <span>{priceRange.label}</span>
+                  <button
+                    className="text-sm"
+                    onClick={() => handlePriceRangeChange(priceRange)}
+                  >
+                    &times;
+                  </button>
+                </div>
+              );
+            })}
           </div>
         </div>
         <div id="filter__group" className="mb-4 flex flex-col gap-2">
