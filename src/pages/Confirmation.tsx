@@ -19,24 +19,27 @@ const Confirmation = () => {
       <h1 className="text-3xl font-bold text-green-600 mb-6">
         ¡Compra Confirmada!
       </h1>
-      <div className="bg-white p-6 rounded-lg shadow-md flex flex-col md:flex-row md:justify-between gap-6">
+      <div className="bg-white p-6 rounded-lg shadow-md flex flex-col md:flex-row md:justify-between gap-6 dark:bg-secondary-800">
         <div className="md:w-2/3 text-left">
-          <p className="mb-4 text-gray-800 font-semibold">
+          <p className="mb-4 text-gray-800 font-semibold dark:text-gray-100">
             ¡Gracias por tu compra, {order.user.name}!
           </p>
-          <p className="mb-4 text-gray-600">
+          <p className="mb-4 text-gray-600 dark:text-gray-50">
             Tu número de orden es: <strong>{order.orderNumber}</strong>
           </p>
 
           {/* Shipping Address Details */}
           {order.paymentDetails?.shippingAddress && (
-            <div className="bg-blue-50 p-4 rounded-lg shadow-sm mb-4 flex items-center">
-              <MapPin className="text-blue-600 mr-3" size={24} />
+            <div className="bg-blue-50 p-4 rounded-lg shadow-sm mb-4 flex items-center dark:bg-secondary-700">
+              <MapPin
+                className="text-primary-600 mr-3 dark:text-success-500"
+                size={24}
+              />
               <div>
-                <h3 className="font-semibold text-blue-800 mb-1">
+                <h3 className="font-semibold text-primary-800 mb-1 dark:text-success-500">
                   Dirección de Envío
                 </h3>
-                <p className="text-gray-700">
+                <p className="text-gray-700 dark:text-secondary-50">
                   {order.paymentDetails.shippingAddress}
                 </p>
               </div>
@@ -45,13 +48,13 @@ const Confirmation = () => {
 
           {/* Payment Details */}
           {order.paymentDetails?.lastFour && (
-            <div className="bg-purple-50 p-4 rounded-lg shadow-sm mb-4 flex items-center">
-              <CreditCard className="text-purple-600 mr-3" size={24} />
+            <div className="bg-purple-50 p-4 rounded-lg shadow-sm mb-4 flex items-center dark:bg-secondary-700">
+              <CreditCard className="text-purple-600 mr-3 " size={24} />
               <div>
-                <h3 className="font-semibold text-purple-800 mb-1">
+                <h3 className="font-semibold text-purple-500 mb-1">
                   Detalles de Pago
                 </h3>
-                <p className="text-gray-700">
+                <p className="text-gray-700 dark:text-secondary-50">
                   Tarjeta: {order.paymentDetails.cardType || 'N/A'} terminada en{' '}
                   <strong>{order.paymentDetails.lastFour}</strong>
                 </p>
@@ -61,7 +64,7 @@ const Confirmation = () => {
         </div>
 
         {/* Purchase Summary Aside */}
-        <aside className="md:w-1/3 bg-secondary-100 p-6 rounded-lg shadow-card text-left">
+        <aside className="md:w-1/3 bg-secondary-100 p-6 rounded-lg shadow-card text-left dark:bg-secondary-700">
           <h3 className="font-semibold mb-4 pb-3 border-b border-secondary-200">
             Resumen de Compra
           </h3>

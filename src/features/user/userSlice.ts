@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { storage, STORAGE_KEYS } from '../../utils/storage';
-import type { User } from '../../utils/storage';
+import type { User, CartItem } from '../../utils/storage';
 
 export interface UserState {
   user: User | null;
@@ -30,13 +30,16 @@ const userSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    loginSuccess: (state, action: PayloadAction<User>) => {
-      state.user = action.payload;
+    loginSuccess: (
+      state,
+      action: PayloadAction<{ user: User; cartItems?: CartItem[] }>,
+    ) => {
+      state.user = action.payload.user;
       state.isAuthenticated = true;
       state.loading = false;
       state.error = null;
 
-      storage.set(STORAGE_KEYS.USER, action.payload);
+      storage.set(STORAGE_KEYS.USER, action.payload.user);
     },
     loginFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;

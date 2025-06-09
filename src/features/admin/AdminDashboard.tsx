@@ -34,7 +34,7 @@ const AdminDashboard = () => {
     if (!window.confirm('Are you sure you want to delete this product?'))
       return;
     dispatch(removeProduct(id));
-    const updated = products.filter(p => p.id !== id);
+    const updated = products.filter((p: Product) => p.id !== id);
     localStorage.setItem('products', JSON.stringify(updated));
     toast.success('Product deleted');
   };

@@ -5,6 +5,7 @@ import type { RootState } from '../redux/store';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { saveOrder } from '../utils/storage';
 import { clearCart } from '../features/cart/cartSlice';
+import { useEffect } from 'react';
 
 interface CheckoutFormInputs {
   name: string;
@@ -15,8 +16,16 @@ interface CheckoutFormInputs {
 type CardType = 'Visa' | 'Mastercard' | 'Amex' | 'Baneco';
 
 const CheckoutPage = () => {
+  const cartElements = useSelector((state: RootState) => state.cart.items);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (cartElements.length === 0) {
+      navigate('/cart');
+    }
+  }, [cartElements, navigate]);
 
   const {
     register,
@@ -36,6 +45,10 @@ const CheckoutPage = () => {
   };
 
   const onSubmit: SubmitHandler<CheckoutFormInputs> = data => {
+    if (cartElements.length === 0) {
+      return;
+    }
+
     const orderId = crypto.randomUUID();
     const orderNumber = orderId.slice(-12);
 
