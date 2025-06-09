@@ -158,14 +158,6 @@ export interface User {
   isAdmin: boolean;
 }
 
-export interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
-
 export interface Order {
   id: string;
   userEmail: string;
