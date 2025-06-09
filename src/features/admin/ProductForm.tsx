@@ -1,4 +1,3 @@
-// src/features/admin/ProductForm.tsx
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useState, useEffect } from 'react';
@@ -41,12 +40,12 @@ const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name.trim()) return toast.error('Nombre requerido');
+    if (!name.trim()) return toast.error('Name is required');
     const priceValue = parseFloat(price);
     if (!priceValue || priceValue <= 0)
-      return toast.error('Precio debe ser mayor a 0');
-    if (!description.trim()) return toast.error('Descripción requerida');
-    if (!imageUrl.trim()) return toast.error('URL de imagen requerida');
+      return toast.error('Price must be greater than 0');
+    if (!description.trim()) return toast.error('Description is required');
+    if (!imageUrl.trim()) return toast.error('Image URL is required');
 
     const product: Product = {
       id: editingProduct ? editingProduct.id : Date.now(),
@@ -60,11 +59,22 @@ const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
 
     if (editingProduct) {
       dispatch(updateProduct(product));
-      toast.success('Producto actualizado');
+      const stored = localStorage.getItem('products');
+      const current = stored ? JSON.parse(stored) : [];
+      const updated = current.map((p: Product) =>
+        p.id === product.id ? product : p,
+      );
+      localStorage.setItem('products', JSON.stringify(updated));
+      toast.success('Product updated');
     } else {
       dispatch(addProduct(product));
-      toast.success('Producto añadido');
+      const stored = localStorage.getItem('products');
+      const current = stored ? JSON.parse(stored) : [];
+      const updated = [...current, product];
+      localStorage.setItem('products', JSON.stringify(updated));
+      toast.success('Product added');
     }
+
     onClose();
   };
 
@@ -91,25 +101,25 @@ const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
               <X size={20} />
             </button>
             <h2 className="text-xl font-semibold mb-4">
-              {editingProduct ? 'Editar Producto' : 'Añadir Producto'}
+              {editingProduct ? 'Edit Product' : 'Add Product'}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <input
-                className="input-field"
-                placeholder="Ej. Zapatos deportivos Nike"
+                className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                placeholder="E.g. Nike running shoes"
                 value={name}
                 onChange={e => setName(e.target.value)}
               />
               <input
                 type="text"
                 inputMode="decimal"
-                className="input-field"
-                placeholder="Precio en Bs. Ej: 120.00"
+                className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                placeholder="Price e.g. 120.00"
                 value={price}
                 onChange={e => setPrice(e.target.value)}
               />
               <select
-                className="input-field"
+                className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                 value={categoryId}
                 onChange={e => setCategoryId(Number(e.target.value))}
               >
@@ -118,21 +128,21 @@ const ProductFormModal = ({ open, onClose, editingProduct }: Props) => {
                 <option value={3}>Clothing</option>
               </select>
               <input
-                className="input-field"
-                placeholder="Ej. https://miimagen.com/producto.jpg"
+                className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                placeholder="E.g. https://imageurl.com/product.jpg"
                 value={imageUrl}
                 onChange={e => setImageUrl(e.target.value)}
               />
               <textarea
-                className="input-field"
                 rows={3}
-                placeholder="Ej. Zapatillas cómodas y resistentes para correr."
+                className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                placeholder="E.g. Comfortable and durable running shoes."
                 value={description}
                 onChange={e => setDescription(e.target.value)}
               />
               <div className="flex justify-end">
                 <button type="submit" className="btn-primary">
-                  {editingProduct ? 'Guardar Cambios' : 'Guardar'}
+                  {editingProduct ? 'Save Changes' : 'Save'}
                 </button>
               </div>
             </form>

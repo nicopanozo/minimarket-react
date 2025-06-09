@@ -17,10 +17,14 @@ const AdminDashboard = () => {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   useEffect(() => {
-    if (products.length === 0) {
+    const stored = localStorage.getItem('products');
+    if (stored) {
+      dispatch(setProducts(JSON.parse(stored)));
+    } else {
       dispatch(setProducts(initialProducts));
+      localStorage.setItem('products', JSON.stringify(initialProducts));
     }
-  }, [dispatch, products.length]);
+  }, [dispatch]);
 
   const handleEdit = (product: Product) => {
     setEditingProduct(product);
@@ -29,7 +33,9 @@ const AdminDashboard = () => {
 
   const handleDelete = (id: number) => {
     dispatch(removeProduct(id));
-    toast.success('Producto eliminado');
+    const updated = products.filter((p: Product) => p.id !== id);
+    localStorage.setItem('products', JSON.stringify(updated));
+    toast.success('Product deleted');
   };
 
   const handleCloseModal = () => {
@@ -39,21 +45,22 @@ const AdminDashboard = () => {
 
   return (
     <div className="container-custom py-8 space-y-10">
-      <h2 className="text-2xl font-bold heading-dark">
-        Panel de Administración
-      </h2>
+      <h2 className="text-2xl font-bold heading-dark">Admin Dashboard</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <section>
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl font-semibold heading-dark">
-              Gestión de Productos
+              Product Management
             </h3>
             <button
               className="btn-secondary flex items-center gap-2 text-sm"
-              onClick={() => setShowModal(true)}
+              onClick={() => {
+                setEditingProduct(null);
+                setShowModal(true);
+              }}
             >
-              <Plus size={16} /> Crear
+              <Plus size={16} /> Add Product
             </button>
           </div>
 
@@ -61,14 +68,14 @@ const AdminDashboard = () => {
             <table className="w-full text-sm text-left border-collapse">
               <thead className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-white">
                 <tr>
-                  <th className="py-2 px-4">Nombre</th>
-                  <th className="py-2 px-4">Precio</th>
-                  <th className="py-2 px-4">Categoría</th>
-                  <th className="py-2 px-4">Acciones</th>
+                  <th className="py-2 px-4">Name</th>
+                  <th className="py-2 px-4">Price</th>
+                  <th className="py-2 px-4">Category</th>
+                  <th className="py-2 px-4">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y dark:divide-gray-600">
-                {products.map(product => (
+                {products.map((product: Product) => (
                   <tr key={product.id}>
                     <td className="py-2 px-4">{product.name}</td>
                     <td className="py-2 px-4">${product.price.toFixed(2)}</td>
@@ -89,13 +96,20 @@ const AdminDashboard = () => {
                     </td>
                   </tr>
                 ))}
+                {products.length === 0 && (
+                  <tr>
+                    <td colSpan={4} className="py-4 text-center text-gray-500">
+                      No products available.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold heading-dark mb-4">Pedidos</h2>
+          <h2 className="text-xl font-semibold heading-dark mb-4">Orders</h2>
           <OrderTable />
         </section>
       </div>
