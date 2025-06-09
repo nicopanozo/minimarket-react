@@ -32,12 +32,12 @@ const CartPage = () => {
         <div className="flex-grow">
           <article>
             <h2 className="font-heading text-xl font-semibold text-secondary-700 dark:text-secondary-200 mb-10">
-              Tu Carrito de Compras
+              Your shopping cart
             </h2>
             {cartItems.length === 0 ? (
               <div className="flex items-center justify-center px-6 py-10">
                 <p className="font-medium text-secondary-600 dark:text-secondary-400">
-                  Tu carrito está vacío
+                  Your cart is empty
                 </p>
               </div>
             ) : (
@@ -45,8 +45,8 @@ const CartPage = () => {
                 <div className="hidden md:block border-y-2 border-secondary-300 dark:border-secondary-600 py-3 text-secondary-600 dark:text-secondary-400 font-semibold">
                   <ul className="grid grid-cols-[2fr_1fr_1fr] text-left">
                     <li className="pl-24">Item</li>
-                    <li className="text-right">Precio</li>
-                    <li className="text-right pr-4">Cantidad</li>
+                    <li className="text-right">Price</li>
+                    <li className="text-right pr-4">Quantity</li>
                   </ul>
                 </div>
 
@@ -78,7 +78,7 @@ const CartPage = () => {
                       {' '}
                       <div className="text-left md:text-right text-secondary-700 dark:text-secondary-200 font-medium">
                         <span className="md:hidden text-secondary-600 dark:text-secondary-400 mr-2">
-                          Precio:
+                          Price:
                         </span>{' '}
                         {/* Label for mobile */}
                         <h4>${product.price.toFixed(2)}</h4>
@@ -86,7 +86,7 @@ const CartPage = () => {
                       <div className="text-right md:text-right pr-0 md:pr-5 text-primary-600 dark:text-secondary-400 font-medium">
                         {/* Label badge for mobile only */}
                         <span className="md:hidden bg-secondary-100 dark:bg-secondary-700 text-secondary-600 dark:text-secondary-200 px-2 py-0.5 rounded-full text-sm font-medium mr-2">
-                          Cantidad:
+                          Quantity:
                         </span>
                         <p className="inline-block bg-primary-600 text-white px-2 py-0.5 rounded-full text-xs font-semibold shadow-sm">
                           {product.quantity}
@@ -103,11 +103,11 @@ const CartPage = () => {
         <div className="md:w-1/3 lg:w-1/4 w-full mt-8 md:mt-0">
           <aside className="bg-secondary-100 dark:bg-secondary-800 p-6 rounded-lg shadow-card">
             <h3 className="font-heading text-lg font-semibold text-secondary-700 dark:text-secondary-200 mb-4 pb-3 border-b border-secondary-200 dark:border-secondary-700">
-              Resumen de compra
+              Purchase summary
             </h3>
             <ul className="space-y-3 text-secondary-600 dark:text-secondary-400">
               <li className="flex justify-between items-center">
-                <span>Cantidad de productos:</span>
+                <span>Products quantity:</span>
                 <span className="font-medium text-secondary-800 dark:text-secondary-100">
                   {totalQuantity}
                 </span>
@@ -132,7 +132,7 @@ const CartPage = () => {
               `}
               onClick={toCheckout}
             >
-              Finalizar Compra
+              Checkout
             </button>
           </aside>
         </div>

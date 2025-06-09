@@ -14,10 +14,8 @@ interface CheckoutFormInputs {
 }
 
 type CardType = 'Visa' | 'Mastercard' | 'Amex' | 'Baneco';
-
 const CheckoutPage = () => {
   const cartElements = useSelector((state: RootState) => state.cart.items);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -45,14 +43,10 @@ const CheckoutPage = () => {
   };
 
   const onSubmit: SubmitHandler<CheckoutFormInputs> = data => {
-    if (cartElements.length === 0) {
-      return;
-    }
+    if (cartElements.length === 0) return;
 
     const orderId = crypto.randomUUID();
     const orderNumber = orderId.slice(-12);
-
-    // Simulate getting card type and last four digits
     const lastFour = data.cardNumber.slice(-4);
     const cardType = getCardType(data.cardNumber);
 
@@ -75,89 +69,96 @@ const CheckoutPage = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow"
-    >
-      <h2 className="text-xl font-bold mb-4">Datos del comprador y Pago</h2>
-
-      <div className="mb-4">
-        <label
-          htmlFor="name"
-          className="block text-gray-700 text-sm font-bold mb-2"
-        >
-          Nombre:
-        </label>
-        <input
-          id="name"
-          type="text"
-          placeholder="John Doe"
-          {...register('name', { required: 'El nombre es obligatorio' })}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-        {errors.name && (
-          <p className="text-red-500 text-xs italic">{errors.name.message}</p>
-        )}
-      </div>
-
-      <div className="mb-4">
-        <label
-          htmlFor="shippingAddress"
-          className="block text-gray-700 text-sm font-bold mb-2"
-        >
-          Dirección de Envío:
-        </label>
-        <input
-          id="shippingAddress"
-          type="text"
-          placeholder="Calle los cusis 23, Barrio Equipetrol"
-          {...register('shippingAddress', {
-            required: 'La dirección de envío es obligatoria',
-          })}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-        {errors.shippingAddress && (
-          <p className="text-red-500 text-xs italic">
-            {errors.shippingAddress.message}
-          </p>
-        )}
-      </div>
-
-      <div className="mb-6">
-        <label
-          htmlFor="cardNumber"
-          className="block text-gray-700 text-sm font-bold mb-2"
-        >
-          Número de Tarjeta:
-        </label>
-        <input
-          id="cardNumber"
-          type="text"
-          {...register('cardNumber', {
-            required: 'El número de tarjeta es obligatorio',
-            pattern: {
-              value: /^\d{16}$/,
-              message:
-                'Por favor, ingresa un número de tarjeta válido de 16 dígitos',
-            },
-          })}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-          placeholder="Ej: 1234567890123456"
-        />
-        {errors.cardNumber && (
-          <p className="text-red-500 text-xs italic">
-            {errors.cardNumber.message}
-          </p>
-        )}
-      </div>
-
-      <button
-        type="submit"
-        className="mt-4 w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-10 px-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="max-w-md mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md dark:shadow-lg"
       >
-        Confirmar Compra
-      </button>
-    </form>
+        <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-100">
+          Payment and shipping data
+        </h2>
+
+        {/* Name Field */}
+        <div className="mb-4">
+          <label
+            htmlFor="name"
+            className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1"
+          >
+            Name:
+          </label>
+          <input
+            id="name"
+            type="text"
+            placeholder="John Doe"
+            {...register('name', { required: 'El nombre es obligatorio' })}
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+          {errors.name && (
+            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+          )}
+        </div>
+
+        {/* Shipping Address Field */}
+        <div className="mb-4">
+          <label
+            htmlFor="shippingAddress"
+            className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1"
+          >
+            Shipping Address:
+          </label>
+          <input
+            id="shippingAddress"
+            type="text"
+            placeholder="Calle los cusis 23, Barrio Equipetrol"
+            {...register('shippingAddress', {
+              required: 'Shippment addres is needed',
+            })}
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+          {errors.shippingAddress && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.shippingAddress.message}
+            </p>
+          )}
+        </div>
+
+        {/* Card Number Field */}
+        <div className="mb-6">
+          <label
+            htmlFor="cardNumber"
+            className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1"
+          >
+            Card number:
+          </label>
+          <input
+            id="cardNumber"
+            type="text"
+            placeholder="Ej: 1234567890123456"
+            {...register('cardNumber', {
+              required: 'No card number was provided',
+              pattern: {
+                value: /^\d{16}$/,
+                message: 'Please, enter a valid card',
+              },
+            })}
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+          {errors.cardNumber && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.cardNumber.message}
+            </p>
+          )}
+        </div>
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+        >
+          Confirm order
+        </button>
+      </form>
+    </div>
   );
 };
 
