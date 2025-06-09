@@ -38,20 +38,20 @@ const Navbar: React.FC = () => {
               to="/"
               className="hover:text-primary-600 dark:hover:text-primary-300"
             >
-              Inicio
+              Home
             </Link>
             <Link
               to="/cart"
               className="relative hover:text-primary-600 dark:hover:text-primary-300"
             >
-              Carrito
+              Cart
               <span className="absolute -top-2 -right-2 bg-danger-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                 {catItems.length}
               </span>
             </Link>
             {isAuthenticated && user ? (
               <div className="flex items-center space-x-4">
-                <span className="dark:text-gray-200">Hola, {user.name}</span>
+                <span className="dark:text-gray-200">Hello, {user.name}</span>
                 {user.isAdmin && (
                   <Link to="/admin" className="btn-primary text-sm px-3 py-1">
                     Admin
@@ -61,12 +61,12 @@ const Navbar: React.FC = () => {
                   onClick={handleLogout}
                   className="btn-secondary text-sm px-3 py-1"
                 >
-                  Cerrar Sesión
+                  Logout
                 </button>
               </div>
             ) : (
               <Link to="/login" className="btn-primary">
-                Iniciar Sesión
+                Login
               </Link>
             )}
             <DarkModeToggle />
@@ -105,18 +105,18 @@ const Navbar: React.FC = () => {
               onClick={() => setMenuOpen(false)}
               className="hover:text-primary-600 dark:hover:text-primary-300"
             >
-              Inicio
+              Home
             </Link>
             <Link
               to="/cart"
               onClick={() => setMenuOpen(false)}
               className="hover:text-primary-600 dark:hover:text-primary-300"
             >
-              Carrito
+              Cart
             </Link>
             {isAuthenticated && user ? (
               <>
-                <span className="dark:text-gray-200">Hola, {user.name}</span>
+                <span className="dark:text-gray-200">Hello, {user.name}</span>
                 {user.isAdmin && (
                   <Link
                     to="/admin"
@@ -130,7 +130,7 @@ const Navbar: React.FC = () => {
                   onClick={handleLogout}
                   className="btn-secondary text-sm px-3 py-1"
                 >
-                  Cerrar Sesión
+                  Logout
                 </button>
               </>
             ) : (
@@ -139,7 +139,7 @@ const Navbar: React.FC = () => {
                 onClick={() => setMenuOpen(false)}
                 className="btn-primary"
               >
-                Iniciar Sesión
+                Login
               </Link>
             )}
           </div>
